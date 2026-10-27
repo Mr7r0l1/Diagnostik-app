@@ -34,11 +34,97 @@ export function switchTab(tabId) {
     if (headerSub && titleMap[tabId]) headerSub.textContent = titleMap[tabId].subtitle;
 }
 
+export function toggleMenuMobile() {
+    const menuContent = document.getElementById('sidebarMenuContent');
+    const indicator = document.getElementById('mobileMenuIndicator');
+    if (!menuContent) return;
+
+    const estaOculto = menuContent.classList.contains('hidden');
+    if (estaOculto) {
+        menuContent.classList.remove('hidden');
+        menuContent.classList.add('flex');
+        if (indicator) {
+            indicator.textContent = '▲';
+            indicator.style.transform = 'rotate(180deg)';
+        }
+    } else {
+        menuContent.classList.add('hidden');
+        menuContent.classList.remove('flex');
+        if (indicator) {
+            indicator.textContent = '▼';
+            indicator.style.transform = 'rotate(0deg)';
+        }
+    }
+}
+
+export function cerrarMenuMobile() {
+    if (window.innerWidth >= 768) return; // En desktop no se oculta
+    const menuContent = document.getElementById('sidebarMenuContent');
+    const indicator = document.getElementById('mobileMenuIndicator');
+    if (menuContent) {
+        menuContent.classList.add('hidden');
+        menuContent.classList.remove('flex');
+    }
+    if (indicator) {
+        indicator.textContent = '▼';
+        indicator.style.transform = 'rotate(0deg)';
+    }
+}
+
 export function initNavigation() {
+    // Manejo de tabs con auto-cierre en móvil
     document.querySelectorAll('[data-tab]').forEach(btn => {
         btn.addEventListener('click', () => {
             const tabId = btn.getAttribute('data-tab');
-            if (tabId) switchTab(tabId);
+            if (tabId) {
+                switchTab(tabId);
+                cerrarMenuMobile();
+            }
         });
     });
+
+    // Botón de la llave 🔧: En móvil abre/cierra menú, en desktop va a Inicio/Resumen
+    const btnWrench = document.getElementById('btnWrenchToggle');
+    if (btnWrench) {
+        btnWrench.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.innerWidth < 768) {
+                toggleMenuMobile();
+            } else {
+                switchTab('tab-dashboard');
+            }
+        });
+    }
+
+    // Cabecera móvil (texto DiagnostikAI): también abre/cierra en móvil
+    const mobileHeaderTrigger = document.getElementById('mobileHeaderTrigger');
+    if (mobileHeaderTrigger) {
+        mobileHeaderTrigger.addEventListener('click', (e) => {
+            if (window.innerWidth < 768) {
+                // Si no fue el botón mismo (que ya tiene su listener)
+                if (e.target !== btnWrench && !btnWrench.contains(e.target)) {
+                    toggleMenuMobile();
+                }
+            }
+        });
+    }
+
+    // Si la pantalla se redimensiona a escritorio, restablecer visualización
+    window.addEventListener('resize', () => {
+        const menuContent = document.getElementById('sidebarMenuContent');
+        const indicator = document.getElementById('mobileMenuIndicator');
+        if (window.innerWidth >= 768) {
+            if (menuContent) {
+                menuContent.classList.remove('hidden');
+                menuContent.classList.add('flex');
+            }
+        } else {
+            // En móvil inicia cerrado
+            if (menuContent && !menuContent.classList.contains('hidden') && indicator && indicator.textContent === '▼') {
+                menuContent.classList.add('hidden');
+                menuContent.classList.remove('flex');
+            }
+        }
+    });
 }
+

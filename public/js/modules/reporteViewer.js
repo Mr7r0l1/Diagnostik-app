@@ -30,7 +30,7 @@ export function abrirVistaReporte(rep) {
 
     cont.innerHTML = `
         <!-- Barra de acciones -->
-        <div class="app-card p-4 flex flex-wrap items-center justify-between gap-3 animate-report-appear">
+        <div class="app-card p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-report-appear">
             <div class="flex items-center gap-3 min-w-0">
                 <button type="button" id="btnVolverHistorial" class="viewer-back-btn" title="Volver al historial">←</button>
                 <div class="min-w-0">
@@ -38,9 +38,9 @@ export function abrirVistaReporte(rep) {
                     <h3 class="viewer-title truncate">${escapeHtml(d.descripcion_corta || 'Reporte de diagnóstico')}</h3>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 justify-between sm:justify-end shrink-0">
                 <span class="badge badge-${severidadClase(sev)}">Severidad: ${escapeHtml(sev)}</span>
-                <button type="button" id="btnImprimirVista" class="btn-primary text-sm">🖨️ Imprimir / PDF</button>
+                <button type="button" id="btnImprimirVista" class="btn-primary text-xs sm:text-sm py-2 px-3 sm:px-4">🖨️ Imprimir / PDF</button>
             </div>
         </div>
 

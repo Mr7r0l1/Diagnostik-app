@@ -19,9 +19,11 @@ export async function cargarDatosUsuario(userId) {
 
         const data = res.data;
 
-        // Actualizar créditos en interfaz
-        const creditosEl = document.getElementById('uiCreditos');
-        if (creditosEl) creditosEl.textContent = data.creditos ?? 0;
+        // Actualizar créditos en interfaz (móvil y escritorio)
+        const creditosValor = data.creditos ?? 0;
+        document.querySelectorAll('.ui-creditos-val').forEach(el => {
+            el.textContent = creditosValor;
+        });
 
         // Guardar valores en memoria (preservando valores reales, vacíos si son vacíos)
         datosPerfil = {

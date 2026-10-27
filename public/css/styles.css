@@ -889,3 +889,85 @@ html, body {
     animation: textFadeIn 0.5s ease forwards;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE RESPONSIVE ENHANCEMENTS
+───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    html, body {
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+    #appContainer {
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+    .sidebar {
+        padding: 0.75rem 1rem !important;
+        border-bottom: 1px solid var(--bg-subtle) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+        z-index: 40;
+    }
+
+    #sidebarMenuContent {
+        max-height: calc(100dvh - 72px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-top: 0.5rem;
+        padding-bottom: 0.75rem;
+    }
+
+    /* Prevenir zoom automático molesto en iOS Safari al tocar inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select,
+    .form-select,
+    .form-textarea,
+    .form-input-search {
+        font-size: 16px !important;
+    }
+
+    /* Botones y chips táctiles cómodos */
+    .chip-sintoma {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.85rem;
+    }
+
+    .nav-item {
+        padding: 0.85rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Modal de vehículos en pantallas pequeñas */
+    #vehicleModal > div {
+        max-height: 92dvh;
+        width: 96vw;
+        margin: auto;
+    }
+
+    #vehicleStepContainer {
+        min-height: 220px;
+        max-height: 320px;
+    }
+
+    /* Ajuste de columnas en móviles pequeños */
+    .dtcs-list {
+        max-height: 220px;
+    }
+
+    .btn-generate {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #sidebarMenuContent {
+        display: flex !important;
+    }
+}
+
+

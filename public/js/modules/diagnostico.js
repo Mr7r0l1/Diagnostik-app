@@ -736,8 +736,9 @@ export function initDiagnosticoListeners(getUserId) {
                 const json = await generarDiagnosticoAPI(payload);
                 if (progressBar) progressBar.style.width = '100%';
 
-                const creditosEl = document.getElementById('uiCreditos');
-                if (creditosEl) creditosEl.textContent = json.creditosRestantes;
+                document.querySelectorAll('.ui-creditos-val').forEach(el => {
+                    el.textContent = json.creditosRestantes ?? 0;
+                });
 
                 const dataEnriquecida = {
                     ...json.data,
@@ -757,6 +758,14 @@ export function initDiagnosticoListeners(getUserId) {
                 renderizarReporte(dataEnriquecida, payload.marca, payload.modelo);
                 cargarHistorial(userId);
                 showToast('✅ Reporte generado exitosamente con IA', 'success');
+
+                // En móvil hacer scroll suave hacia el reporte para que el usuario no tenga que buscarlo
+                if (window.innerWidth < 1024) {
+                    setTimeout(() => {
+                        const panel = document.getElementById('hojaReporte');
+                        if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 150);
+                }
 
             } catch (err) {
                 showToast(err.message, 'error');

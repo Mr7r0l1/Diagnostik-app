@@ -60,22 +60,44 @@
 
         <!-- Sidebar Navigation -->
         <aside
-            class="w-full md:w-64 sidebar p-5 flex flex-col justify-between shrink-0 h-auto md:h-full overflow-y-auto">
-            <div class="space-y-6">
-                <!-- Header del Taller -->
-                <div class="flex items-center gap-3 px-1">
-                    <button data-tab="tab-dashboard"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-xl shrink-0 transition duration-300 ease-in-out hover:scale-105"
-                        style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);">
+            class="w-full md:w-64 sidebar p-3 sm:p-4 md:p-5 flex flex-col shrink-0 md:h-full md:overflow-y-auto">
+            
+            <!-- Barra superior del Taller (En móvil funciona como cabecera compacta con toggle y créditos) -->
+            <div class="flex items-center justify-between gap-2 px-1">
+                <div id="mobileHeaderTrigger" class="flex items-center gap-3 cursor-pointer md:cursor-default select-none">
+                    <button id="btnWrenchToggle" type="button"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-xl shrink-0 transition duration-200 active:scale-95 hover:scale-105"
+                        style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);"
+                        title="Menú de Navegación">
                         🔧
                     </button>
                     <div>
-                        <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI
-                        </h1>
+                        <div class="flex items-center gap-1.5">
+                            <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI</h1>
+                            <span id="mobileMenuIndicator" class="text-xs transition-transform duration-200 md:hidden text-muted font-bold">▼</span>
+                        </div>
                         <span class="text-[11px]" style="color:var(--text-muted)">Sistema Técnico de Taller</span>
                     </div>
                 </div>
 
+                <!-- Acciones rápidas visibles en móvil: Créditos y Tema -->
+                <div class="flex md:hidden items-center gap-2">
+                    <div class="flex items-center gap-1.5 text-xs py-1.5 px-2.5 rounded-lg border border-slate-200 dark:border-slate-800"
+                        style="background:var(--bg-subtle)">
+                        <span class="text-[10px] text-muted">Créditos:</span>
+                        <span id="uiCreditosMobile" class="ui-creditos-val font-extrabold text-xs"
+                            style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
+                    </div>
+                    <button id="themeToggleBtnMobile" type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-sm border border-slate-200 dark:border-slate-800 transition-colors"
+                        style="background:var(--bg-subtle);cursor:pointer;"
+                        title="Cambiar tema">
+                        <span class="theme-toggle-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenido desplegable del menú (En móvil colapsa/expande; en desktop siempre visible) -->
+            <div id="sidebarMenuContent" class="hidden md:flex flex-col flex-1 justify-between mt-3 md:mt-6 space-y-4 md:space-y-6">
                 <!-- Lista de Navegación -->
                 <nav class="space-y-1">
                     <button data-tab="tab-dashboard" class="nav-item active w-full">
@@ -95,52 +117,52 @@
                         <span>Ajustes y Perfil</span>
                     </button>
                 </nav>
-            </div>
 
-            <!-- Sidebar Footer -->
-            <div class="pt-4 space-y-3" style="border-top:1px solid var(--bg-subtle)">
-                <div class="flex items-center gap-3 p-2 rounded-xl" style="background:var(--bg-subtle)">
-                    <img id="headerAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=mechanic"
-                        class="w-9 h-9 rounded-full object-cover shrink-0" style="background:var(--bg-body)"
-                        alt="Foto de perfil">
-                    <div class="truncate">
-                        <p id="userDisplayName" class="text-xs font-bold truncate" style="color:var(--text-primary)">
-                            Técnico Principal</p>
-                        <p id="userEmail" class="text-[11px] truncate" style="color:var(--text-muted)">...</p>
+                <!-- Sidebar Footer -->
+                <div class="pt-4 space-y-3" style="border-top:1px solid var(--bg-subtle)">
+                    <div class="flex items-center gap-3 p-2 rounded-xl" style="background:var(--bg-subtle)">
+                        <img id="headerAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=mechanic"
+                            class="w-9 h-9 rounded-full object-cover shrink-0" style="background:var(--bg-body)"
+                            alt="Foto de perfil">
+                        <div class="truncate">
+                            <p id="userDisplayName" class="text-xs font-bold truncate" style="color:var(--text-primary)">
+                                Técnico Principal</p>
+                            <p id="userEmail" class="text-[11px] truncate" style="color:var(--text-muted)">...</p>
+                        </div>
                     </div>
-                </div>
 
-                <button id="btnLogout"
-                    class="w-full text-xs py-2 rounded-xl transition-colors font-semibold flex items-center justify-center gap-1.5"
-                    style="color:#ef4444;background:rgba(239,68,68,0.08);border:none;cursor:pointer;">
-                    <span>🚪</span> Cerrar Sesión
-                </button>
+                    <button id="btnLogout"
+                        class="w-full text-xs py-2.5 rounded-xl transition-colors font-semibold flex items-center justify-center gap-1.5"
+                        style="color:#ef4444;background:rgba(239,68,68,0.08);border:none;cursor:pointer;">
+                        <span>🚪</span> Cerrar Sesión
+                    </button>
+                </div>
             </div>
         </aside>
 
 
         <!-- Área Principal de Trabajo -->
-        <main class="flex-1 flex flex-col p-4 md:p-8 space-y-6 overflow-y-auto">
+        <main class="flex-1 flex flex-col p-3 sm:p-5 md:p-8 space-y-4 md:space-y-6 overflow-y-auto min-h-0">
 
-            <!-- Barra Superior -->
-            <header class="flex flex-wrap justify-between items-center app-card p-4 rounded-xl gap-4">
+            <!-- Barra Superior (En escritorio muestra créditos y tema; en móvil simplificada) -->
+            <header class="flex flex-wrap justify-between items-center app-card p-3.5 sm:p-4 rounded-xl gap-3">
                 <div>
-                    <h2 id="pageHeaderTitle" class="text-lg font-bold">Panel Principal</h2>
+                    <h2 id="pageHeaderTitle" class="text-base sm:text-lg font-bold">Panel Principal</h2>
                     <p id="pageHeaderSubtitle" class="text-xs text-muted">Resumen general y accesos rápidos</p>
                 </div>
 
-                <div class="flex items-center gap-3">
+                <div class="hidden md:flex items-center gap-3">
                     <div class="flex items-center gap-2 text-xs"
                         style="background:var(--bg-subtle);padding:0.375rem 0.875rem;border-radius:0.625rem;">
                         <span class="text-muted">Créditos:</span>
-                        <span id="uiCreditos" class="font-extrabold text-sm"
+                        <span id="uiCreditos" class="ui-creditos-val font-extrabold text-sm"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
 
                     <button id="themeToggleBtn"
                         style="background:var(--bg-subtle);border:none;border-radius:0.625rem;padding:0.375rem 0.875rem;cursor:pointer;font-size:0.75rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;font-weight:600;transition:opacity 0.15s;">
-                        <span id="themeToggleIcon">🌙</span>
-                        <span id="themeToggleLabel" class="font-medium">Modo Oscuro</span>
+                        <span id="themeToggleIcon" class="theme-toggle-icon">🌙</span>
+                        <span id="themeToggleLabel" class="theme-toggle-label font-medium">Modo Oscuro</span>
                     </button>
                 </div>
             </header>
@@ -228,9 +250,9 @@
             </div>
 
             <!-- SECCIÓN 1: NUEVO DIAGNÓSTICO -->
-            <div id="tab-diag" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-0 overflow-hidden">
+            <div id="tab-diag" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 min-h-0 lg:h-full lg:overflow-hidden">
                 <!-- Formulario -->
-                <div class="lg:col-span-5 app-card p-5 space-y-4 flex flex-col h-full overflow-y-auto">
+                <div class="lg:col-span-5 app-card p-4 sm:p-5 space-y-4 flex flex-col lg:h-full lg:overflow-y-auto">
 
                     <!-- Encabezado del formulario -->
                     <div class="form-section-header shrink-0">
@@ -373,8 +395,8 @@
                 </div>
 
                 <!-- Reporte Generado -->
-                <div class="lg:col-span-7 h-full min-h-0 overflow-y-auto pr-1">
-                    <div id="hojaReporte" class="app-card p-6 hidden space-y-5">
+                <div class="lg:col-span-7 lg:h-full min-h-0 lg:overflow-y-auto pr-0 lg:pr-1">
+                    <div id="hojaReporte" class="app-card p-4 sm:p-6 hidden space-y-5">
                         <!-- Encabezado -->
                         <div class="report-header">
                             <div class="flex items-center gap-3.5">

@@ -49,18 +49,18 @@ export function renderizarListaFiltrada(reportes) {
         }
 
         return `
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between hover:border-slate-600 transition-all flex-wrap gap-3">
-                <div class="flex items-center gap-3">
-                    <span class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-700">${escapeHtml(r.codigo)}</span>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-sm text-slate-200">${escapeHtml(r.marca)} ${escapeHtml(r.modelo)}</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border ${badgeColor}">${severidad}</span>
+            <div class="glass-panel p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between hover:border-slate-600 transition-all gap-3">
+                <div class="flex items-start sm:items-center gap-3">
+                    <span class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-700 shrink-0">${escapeHtml(r.codigo)}</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm text-slate-200 truncate">${escapeHtml(r.marca)} ${escapeHtml(r.modelo)}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border shrink-0 ${badgeColor}">${severidad}</span>
                         </div>
-                        <p class="text-xs text-slate-400 mt-0.5">${new Date(r.creado_en).toLocaleString('es-ES')}</p>
+                        <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">${new Date(r.creado_en).toLocaleString('es-ES')}</p>
                     </div>
                 </div>
-                <button data-id="${r.id}" class="btn-ver-historial text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-lg border border-slate-600 transition-colors flex items-center gap-1.5">
+                <button data-id="${r.id}" class="btn-ver-historial text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-lg border border-slate-600 transition-colors flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
                     <span>👁️</span> Ver Reporte Completo
                 </button>
             </div>

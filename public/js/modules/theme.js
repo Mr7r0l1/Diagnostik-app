@@ -8,6 +8,10 @@ export function initTheme() {
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', toggleTheme);
     }
+    const themeToggleBtnMobile = document.getElementById('themeToggleBtnMobile');
+    if (themeToggleBtnMobile) {
+        themeToggleBtnMobile.addEventListener('click', toggleTheme);
+    }
 }
 
 export function setTheme(theme) {
@@ -18,11 +22,13 @@ export function setTheme(theme) {
     }
     localStorage.setItem('diagnostik_theme', theme);
 
-    const iconEl = document.getElementById('themeToggleIcon');
-    const labelEl = document.getElementById('themeToggleLabel');
-
-    if (iconEl) iconEl.textContent = theme === 'dark' ? '☀️' : '🌙';
-    if (labelEl) labelEl.textContent = theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
+    // Actualizar todos los iconos y etiquetas (móvil y escritorio)
+    document.querySelectorAll('.theme-toggle-icon').forEach(iconEl => {
+        iconEl.textContent = theme === 'dark' ? '☀️' : '🌙';
+    });
+    document.querySelectorAll('.theme-toggle-label').forEach(labelEl => {
+        labelEl.textContent = theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
+    });
 
     const selectTheme = document.getElementById('settingThemeSelect');
     if (selectTheme) selectTheme.value = theme;
