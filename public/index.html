@@ -18,40 +18,165 @@
 
 <body class="h-screen overflow-hidden font-sans flex flex-col antialiased">
 
-    <!-- Modal Login / Registro -->
+    <!-- Modal de Autenticación Multivista (Login, Registro Complejo, Verificación OTP) -->
     <div id="authModal"
-        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="app-card p-8 w-full max-w-md border border-slate-700 bg-slate-900 shadow-2xl">
-            <div class="text-center mb-6">
-                <div
-                    class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-2xl text-white font-bold">
+        class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="app-card w-full max-w-lg border border-slate-700/80 bg-slate-900/95 shadow-2xl rounded-2xl flex flex-col max-h-[92vh] overflow-hidden">
+            
+            <!-- Cabecera del Modal -->
+            <div class="p-5 sm:p-6 pb-3 text-center border-b border-slate-800 shrink-0">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-2 text-2xl text-white font-bold"
+                    style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);">
                     🔧
                 </div>
-                <h2 class="text-2xl font-bold text-white tracking-tight">DiagnostikAI Taller</h2>
-                <p class="text-slate-400 text-xs mt-1">Ingresa con tus credenciales de taller</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">DiagnostikAI</h2>
+                <p id="authSubtitle" class="text-slate-400 text-xs mt-1">Ingresa con tus credenciales de taller</p>
             </div>
 
-            <form id="authForm" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico</label>
-                    <input type="email" id="email" required placeholder="ejemplo@taller.com"
-                        class="w-full rounded-lg p-3 text-sm focus:outline-none">
+            <!-- Cuerpo con Scroll Suave -->
+            <div class="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1">
+                
+                <!-- Alertas de Error y Éxito -->
+                <div id="authError"
+                    class="hidden text-xs text-red-300 bg-red-500/15 border border-red-500/30 p-3 rounded-xl flex items-start gap-2.5">
+                    <span class="text-base shrink-0">⚠️</span>
+                    <span id="authErrorText" class="flex-1 leading-relaxed"></span>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Contraseña</label>
-                    <input type="password" id="password" required placeholder="••••••••"
-                        class="w-full rounded-lg p-3 text-sm focus:outline-none">
+                <div id="authSuccess"
+                    class="hidden text-xs text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 p-3 rounded-xl flex items-start gap-2.5">
+                    <span class="text-base shrink-0">✅</span>
+                    <span id="authSuccessText" class="flex-1 leading-relaxed"></span>
                 </div>
-                <div class="flex gap-3 pt-2">
-                    <button type="button" id="btnLogin" class="w-1/2 btn-primary text-sm py-2.5">Ingresar</button>
-                    <button type="button" id="btnRegister"
-                        class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-lg text-sm transition-colors border border-slate-700">Registrar
-                        Taller</button>
+
+                <!-- VISTA 1: INICIO DE SESIÓN -->
+                <div id="viewLogin" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico del Taller</label>
+                        <input type="email" id="loginEmail" placeholder="taller@ejemplo.com" autocomplete="email"
+                            class="w-full rounded-xl p-3 text-sm bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"
+                            class="w-full rounded-xl p-3 text-sm bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                    </div>
+                    <button type="button" id="btnLogin" class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
+                        Iniciar Sesión
+                    </button>
+                    
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <p class="text-xs text-slate-400">¿Aún no tienes cuenta para tu taller?</p>
+                        <button type="button" id="btnGoToRegister"
+                            class="mt-1.5 text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors">
+                            Registrar Nuevo Taller Mecánico →
+                        </button>
+                    </div>
                 </div>
-                <p id="authError"
-                    class="text-red-400 text-xs text-center mt-2 hidden bg-red-500/10 p-2 rounded border border-red-500/20">
-                </p>
-            </form>
+
+                <!-- VISTA 2: REGISTRO COMPLEJO DE TALLER -->
+                <div id="viewRegister" class="hidden space-y-4">
+                    <div class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs text-purple-200 flex items-center gap-2">
+                        <span>🛡️</span>
+                        <span class="text-[11px] leading-tight">Configura tu taller. Requerirá confirmar tu correo con un código de seguridad.</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre del Taller *</label>
+                            <input type="text" id="regTallerNombre" placeholder="Ej. Taller Mecánico El Rayo"
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Ciudad / Ubicación *</label>
+                            <input type="text" id="regCiudad" placeholder="Ej. Guadalajara, Jal."
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre del Técnico Responsable *</label>
+                            <input type="text" id="regTecnicoNombre" placeholder="Ej. Carlos Mendoza"
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Teléfono / WhatsApp *</label>
+                            <input type="tel" id="regTelefono" placeholder="Ej. +52 33 1234 5678"
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Correo Electrónico *</label>
+                        <input type="email" id="regEmail" placeholder="contacto@tallerelrayo.com" autocomplete="email"
+                            class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        <span class="text-[10px] text-slate-400">A este correo llegará tu código de activación.</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Contraseña (Mín. 6 caract.) *</label>
+                            <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password"
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Confirmar Contraseña *</label>
+                            <input type="password" id="regPasswordConfirm" placeholder="••••••••" autocomplete="new-password"
+                                class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnSubmitRegister" class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
+                        Crear Cuenta y Enviar Código 🚀
+                    </button>
+
+                    <div class="pt-2 text-center">
+                        <button type="button" id="btnBackToLogin"
+                            class="text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors">
+                            ← ¿Ya tienes cuenta? Volver a Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VISTA 3: VALIDACIÓN DE CÓDIGO OTP (6 DÍGITOS) -->
+                <div id="viewOtp" class="hidden space-y-4 text-center">
+                    <div class="w-14 h-14 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center mx-auto text-2xl" id="otpIcon">
+                        ✉️
+                    </div>
+                    <div>
+                        <h3 id="otpTitle" class="text-base font-bold text-white">Validación de Correo</h3>
+                        <p id="otpSubtitle" class="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+                            Ingresa el código de 6 dígitos que enviamos a tu correo electrónico para continuar.
+                        </p>
+                    </div>
+
+                    <div class="max-w-xs mx-auto pt-1">
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1 uppercase tracking-wider">Código de 6 Dígitos</label>
+                        <input type="text" id="otpInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+                            placeholder="000000"
+                            class="w-full text-center tracking-[0.4em] font-mono text-2xl font-extrabold py-3 bg-slate-950 border-2 border-purple-500/50 rounded-xl focus:border-purple-400 text-purple-200 focus:outline-none shadow-inner">
+                    </div>
+
+                    <button type="button" id="btnVerifyOtp" class="w-full btn-primary text-sm py-3 font-bold rounded-xl">
+                        Verificar Código y Entrar
+                    </button>
+
+                    <div class="flex items-center justify-between text-xs text-slate-400 pt-2 px-1">
+                        <button type="button" id="btnResendOtp" class="text-purple-400 hover:text-purple-300 font-semibold underline">
+                            Reenviar código
+                        </button>
+                        <span id="otpCooldownText" class="text-[11px] text-slate-500"></span>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800">
+                        <button type="button" id="btnCancelOtp"
+                            class="text-xs text-slate-400 hover:text-slate-200 transition-colors">
+                            ← Cancelar y volver al inicio
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -61,10 +186,11 @@
         <!-- Sidebar Navigation -->
         <aside
             class="w-full md:w-64 sidebar p-3 sm:p-4 md:p-5 flex flex-col shrink-0 md:h-full md:overflow-y-auto relative">
-            
+
             <!-- Barra superior del Taller (En móvil funciona como cabecera compacta) -->
             <div class="flex items-center justify-between gap-2 px-1">
-                <div id="mobileHeaderTrigger" class="flex items-center gap-3 cursor-pointer md:cursor-default select-none">
+                <div id="mobileHeaderTrigger"
+                    class="flex items-center gap-3 cursor-pointer md:cursor-default select-none">
                     <button id="btnWrenchToggle" type="button"
                         class="btn-wrench-morph w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shrink-0 transition duration-200 active:scale-95 hover:scale-105"
                         style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);"
@@ -73,7 +199,8 @@
                         <span class="morph-icon-close">✕</span>
                     </button>
                     <div>
-                        <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI</h1>
+                        <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI
+                        </h1>
                         <span class="text-[11px]" style="color:var(--text-muted)">Sistema Técnico de Taller</span>
                     </div>
                 </div>
@@ -93,7 +220,8 @@
             <div id="mobileMenuBackdrop" class="mobile-menu-backdrop hidden md:hidden"></div>
 
             <!-- Contenido del menú: Flotante tipo Drawer en móvil, normal en desktop -->
-            <div id="sidebarMenuContent" class="sidebar-menu-dropdown hidden md:flex flex-col flex-1 justify-between md:mt-6 space-y-4 md:space-y-6">
+            <div id="sidebarMenuContent"
+                class="sidebar-menu-dropdown hidden md:flex flex-col flex-1 justify-between md:mt-6 space-y-4 md:space-y-6">
                 <!-- Lista de Navegación -->
                 <nav class="space-y-1">
                     <button data-tab="tab-dashboard" class="nav-item active w-full">
@@ -121,7 +249,8 @@
                             class="w-9 h-9 rounded-full object-cover shrink-0" style="background:var(--bg-body)"
                             alt="Foto de perfil">
                         <div class="truncate">
-                            <p id="userDisplayName" class="text-xs font-bold truncate" style="color:var(--text-primary)">
+                            <p id="userDisplayName" class="text-xs font-bold truncate"
+                                style="color:var(--text-primary)">
                                 Técnico Principal</p>
                             <p id="userEmail" class="text-[11px] truncate" style="color:var(--text-muted)">...</p>
                         </div>
@@ -240,7 +369,8 @@
             </div>
 
             <!-- SECCIÓN 1: NUEVO DIAGNÓSTICO -->
-            <div id="tab-diag" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 min-h-0 lg:h-full lg:overflow-hidden">
+            <div id="tab-diag"
+                class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 min-h-0 lg:h-full lg:overflow-hidden">
                 <!-- Formulario -->
                 <div class="lg:col-span-5 app-card p-4 sm:p-5 space-y-4 flex flex-col lg:h-full lg:overflow-y-auto">
 

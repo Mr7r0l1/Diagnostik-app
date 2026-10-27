@@ -64,6 +64,9 @@ export async function actualizarTaller(userId, datosActualizar) {
     return null;
   }
 
+  // Asegurar que el perfil exista (si no, obtenerPerfilPorId lo crea con 10 créditos de bienvenida)
+  await obtenerPerfilPorId(userId);
+
   const { data, error } = await supabase
     .from('perfiles')
     .update(payloadLimpio)
