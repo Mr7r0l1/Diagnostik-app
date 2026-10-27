@@ -1,44 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap');
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   TOKENS — Light (default)
+   TOKENS — Modo Oscuro Permanente
 ───────────────────────────────────────────────────────────────────────────── */
-:root {
-    --bg-body:        #eef2f7;
-    --bg-card:        #ffffff;
-    --bg-subtle:      #e4e8f1;
-    --bg-card-nested: #ffffff;
-    --text-primary:   #0f172a;
-    --text-secondary: #334155;
-    --text-muted:     #64748b;
-
-    /* Purple → Blue gradient */
-    --grad-start:     #7c3aed;
-    --grad-end:       #2563eb;
-    --primary:        #7c3aed;
-    --primary-hover:  #6d28d9;
-    --primary-soft:   #ede9fe;
-    --primary-text:   #5b21b6;
-
-    --accent-success: #059669;
-    --accent-success-soft: #d1fae5;
-    --accent-warning: #d97706;
-    --accent-warning-soft: #fef3c7;
-    --accent-danger:  #dc2626;
-    --accent-danger-soft: #fee2e2;
-
-    --sidebar-bg:     #ffffff;
-    --sidebar-width:  15rem;
-    --radius-card:    1.25rem;
-    --shadow-card:    0 4px 20px -4px rgba(30, 41, 59, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-    --shadow-card-lg: 0 12px 36px -6px rgba(30, 41, 59, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
-    --shadow-nested:  0 2px 8px -2px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
-    --shadow-btn:     0 4px 14px -2px rgba(124,58,237,0.35);
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   TOKENS — Dark
-───────────────────────────────────────────────────────────────────────────── */
+:root,
 [data-theme="dark"] {
     --bg-body:        #0c0e18;
     --bg-card:        #151828;
@@ -48,14 +13,24 @@
     --text-secondary: #cbd5e1;
     --text-muted:     #64748b;
 
+    /* Purple → Blue gradient */
+    --grad-start:     #7c3aed;
+    --grad-end:       #2563eb;
+    --primary:        #7c3aed;
+    --primary-hover:  #6d28d9;
     --primary-soft:   #2d1f52;
     --primary-text:   #a78bfa;
 
+    --accent-success: #059669;
     --accent-success-soft: #052e16;
+    --accent-warning: #d97706;
     --accent-warning-soft: #1c1106;
-    --accent-danger-soft:  #1c0606;
+    --accent-danger:  #dc2626;
+    --accent-danger-soft: #1c0606;
 
     --sidebar-bg:     #0c0e1c;
+    --sidebar-width:  15rem;
+    --radius-card:    1.25rem;
     --shadow-card:    0 4px 20px -4px rgba(0,0,0,0.5);
     --shadow-card-lg: 0 12px 36px -6px rgba(0,0,0,0.6);
     --shadow-nested:  0 2px 8px -2px rgba(0,0,0,0.4);
@@ -890,6 +865,50 @@ html, body {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
+   BOTÓN MORPH SPINNER: 🔧 (Llave) ⇄ ✕ (Cerrar)
+───────────────────────────────────────────────────────────────────────────── */
+.btn-wrench-morph {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.morph-icon-wrench,
+.morph-icon-close {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
+    will-change: transform, opacity;
+}
+
+.morph-icon-wrench {
+    font-size: 1.25rem;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.morph-icon-close {
+    font-size: 1.15rem;
+    font-weight: 800;
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.2);
+}
+
+/* Estado activo: Giro rápido tipo spinner (360deg) y transformación a ✕ */
+.btn-wrench-morph.is-open .morph-icon-wrench {
+    opacity: 0;
+    transform: rotate(360deg) scale(0.2);
+}
+
+.btn-wrench-morph.is-open .morph-icon-close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
    MOBILE RESPONSIVE ENHANCEMENTS
 ───────────────────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
@@ -901,21 +920,87 @@ html, body {
     #appContainer {
         height: 100dvh;
         overflow: hidden;
+        position: relative;
     }
 
     .sidebar {
         padding: 0.75rem 1rem !important;
         border-bottom: 1px solid var(--bg-subtle) !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-        z-index: 40;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+        z-index: 50;
+        position: relative;
     }
 
+    /* Menú flotante / Drawer: NO desplaza el contenido detrás */
     #sidebarMenuContent {
-        max-height: calc(100dvh - 72px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-top: 0.5rem;
-        padding-bottom: 0.75rem;
+        position: fixed !important;
+        top: 60px !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-height: calc(100dvh - 60px) !important;
+        background: rgba(12, 14, 28, 0.98) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        border-bottom: 1px solid var(--bg-subtle) !important;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8) !important;
+        padding: 1.25rem 1rem 1.75rem !important;
+        z-index: 60 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin: 0 !important;
+        animation: mobileMenuSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    #sidebarMenuContent.is-closing {
+        animation: mobileMenuSlideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    }
+
+    @keyframes mobileMenuSlideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-16px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes mobileMenuSlideUp {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-16px);
+        }
+    }
+
+    /* Telón de fondo oscuro translúcido */
+    .mobile-menu-backdrop {
+        position: fixed;
+        inset: 0;
+        top: 60px;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 55;
+        animation: backdropFadeIn 0.22s ease forwards;
+    }
+
+    .mobile-menu-backdrop.is-closing {
+        animation: backdropFadeOut 0.2s ease forwards !important;
+    }
+
+    @keyframes backdropFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes backdropFadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
     }
 
     /* Prevenir zoom automático molesto en iOS Safari al tocar inputs */
@@ -967,6 +1052,16 @@ html, body {
 @media (min-width: 768px) {
     #sidebarMenuContent {
         display: flex !important;
+        position: static !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        max-height: none !important;
+        padding: 0 !important;
+        animation: none !important;
+    }
+    .mobile-menu-backdrop {
+        display: none !important;
     }
 }
 

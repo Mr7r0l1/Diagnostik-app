@@ -36,38 +36,48 @@ export function switchTab(tabId) {
 
 export function toggleMenuMobile() {
     const menuContent = document.getElementById('sidebarMenuContent');
-    const indicator = document.getElementById('mobileMenuIndicator');
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    const btnWrench = document.getElementById('btnWrenchToggle');
     if (!menuContent) return;
 
     const estaOculto = menuContent.classList.contains('hidden');
     if (estaOculto) {
-        menuContent.classList.remove('hidden');
+        menuContent.classList.remove('hidden', 'is-closing');
         menuContent.classList.add('flex');
-        if (indicator) {
-            indicator.textContent = '▲';
-            indicator.style.transform = 'rotate(180deg)';
+        if (backdrop) {
+            backdrop.classList.remove('hidden', 'is-closing');
         }
+        if (btnWrench) btnWrench.classList.add('is-open');
     } else {
-        menuContent.classList.add('hidden');
-        menuContent.classList.remove('flex');
-        if (indicator) {
-            indicator.textContent = '▼';
-            indicator.style.transform = 'rotate(0deg)';
-        }
+        cerrarMenuMobile();
     }
 }
 
 export function cerrarMenuMobile() {
-    if (window.innerWidth >= 768) return; // En desktop no se oculta
     const menuContent = document.getElementById('sidebarMenuContent');
-    const indicator = document.getElementById('mobileMenuIndicator');
-    if (menuContent) {
-        menuContent.classList.add('hidden');
-        menuContent.classList.remove('flex');
-    }
-    if (indicator) {
-        indicator.textContent = '▼';
-        indicator.style.transform = 'rotate(0deg)';
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    const btnWrench = document.getElementById('btnWrenchToggle');
+
+    if (btnWrench) btnWrench.classList.remove('is-open');
+
+    if (window.innerWidth < 768 && menuContent && !menuContent.classList.contains('hidden')) {
+        menuContent.classList.add('is-closing');
+        if (backdrop) backdrop.classList.add('is-closing');
+
+        setTimeout(() => {
+            menuContent.classList.add('hidden');
+            menuContent.classList.remove('flex', 'is-closing');
+            if (backdrop) {
+                backdrop.classList.add('hidden');
+                backdrop.classList.remove('is-closing');
+            }
+        }, 190);
+    } else {
+        if (backdrop) backdrop.classList.add('hidden');
+        if (menuContent && window.innerWidth < 768) {
+            menuContent.classList.add('hidden');
+            menuContent.classList.remove('flex', 'is-closing');
+        }
     }
 }
 
@@ -83,7 +93,7 @@ export function initNavigation() {
         });
     });
 
-    // Botón de la llave 🔧: En móvil abre/cierra menú, en desktop va a Inicio/Resumen
+    // Botón de la llave 🔧: En móvil abre/cierra menú con morph a ✕, en desktop va a Inicio/Resumen
     const btnWrench = document.getElementById('btnWrenchToggle');
     if (btnWrench) {
         btnWrench.addEventListener('click', (e) => {
@@ -101,7 +111,6 @@ export function initNavigation() {
     if (mobileHeaderTrigger) {
         mobileHeaderTrigger.addEventListener('click', (e) => {
             if (window.innerWidth < 768) {
-                // Si no fue el botón mismo (que ya tiene su listener)
                 if (e.target !== btnWrench && !btnWrench.contains(e.target)) {
                     toggleMenuMobile();
                 }
@@ -109,20 +118,33 @@ export function initNavigation() {
         });
     }
 
+    // Backdrop móvil: al tocar fuera, cierra el menú
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            cerrarMenuMobile();
+        });
+    }
+
     // Si la pantalla se redimensiona a escritorio, restablecer visualización
     window.addEventListener('resize', () => {
         const menuContent = document.getElementById('sidebarMenuContent');
-        const indicator = document.getElementById('mobileMenuIndicator');
+        const backdrop = document.getElementById('mobileMenuBackdrop');
+        const btnWrench = document.getElementById('btnWrenchToggle');
+
         if (window.innerWidth >= 768) {
             if (menuContent) {
                 menuContent.classList.remove('hidden');
                 menuContent.classList.add('flex');
             }
+            if (backdrop) backdrop.classList.add('hidden');
+            if (btnWrench) btnWrench.classList.remove('is-open');
         } else {
-            // En móvil inicia cerrado
-            if (menuContent && !menuContent.classList.contains('hidden') && indicator && indicator.textContent === '▼') {
+            // En móvil inicia cerrado si no estaba activo
+            if (menuContent && !btnWrench?.classList.contains('is-open')) {
                 menuContent.classList.add('hidden');
                 menuContent.classList.remove('flex');
+                if (backdrop) backdrop.classList.add('hidden');
             }
         }
     });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -60,44 +60,40 @@
 
         <!-- Sidebar Navigation -->
         <aside
-            class="w-full md:w-64 sidebar p-3 sm:p-4 md:p-5 flex flex-col shrink-0 md:h-full md:overflow-y-auto">
+            class="w-full md:w-64 sidebar p-3 sm:p-4 md:p-5 flex flex-col shrink-0 md:h-full md:overflow-y-auto relative">
             
-            <!-- Barra superior del Taller (En móvil funciona como cabecera compacta con toggle y créditos) -->
+            <!-- Barra superior del Taller (En móvil funciona como cabecera compacta) -->
             <div class="flex items-center justify-between gap-2 px-1">
                 <div id="mobileHeaderTrigger" class="flex items-center gap-3 cursor-pointer md:cursor-default select-none">
                     <button id="btnWrenchToggle" type="button"
-                        class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-xl shrink-0 transition duration-200 active:scale-95 hover:scale-105"
+                        class="btn-wrench-morph w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shrink-0 transition duration-200 active:scale-95 hover:scale-105"
                         style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);"
                         title="Menú de Navegación">
-                        🔧
+                        <span class="morph-icon-wrench">🔧</span>
+                        <span class="morph-icon-close">✕</span>
                     </button>
                     <div>
-                        <div class="flex items-center gap-1.5">
-                            <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI</h1>
-                            <span id="mobileMenuIndicator" class="text-xs transition-transform duration-200 md:hidden text-muted font-bold">▼</span>
-                        </div>
+                        <h1 class="font-bold text-base leading-tight" style="color:var(--text-primary)">DiagnostikAI</h1>
                         <span class="text-[11px]" style="color:var(--text-muted)">Sistema Técnico de Taller</span>
                     </div>
                 </div>
 
-                <!-- Acciones rápidas visibles en móvil: Créditos y Tema -->
+                <!-- Acciones rápidas visibles en móvil: Créditos -->
                 <div class="flex md:hidden items-center gap-2">
-                    <div class="flex items-center gap-1.5 text-xs py-1.5 px-2.5 rounded-lg border border-slate-200 dark:border-slate-800"
+                    <div class="flex items-center gap-1.5 text-xs py-1.5 px-3 rounded-lg border border-slate-800"
                         style="background:var(--bg-subtle)">
                         <span class="text-[10px] text-muted">Créditos:</span>
                         <span id="uiCreditosMobile" class="ui-creditos-val font-extrabold text-xs"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
-                    <button id="themeToggleBtnMobile" type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-sm border border-slate-200 dark:border-slate-800 transition-colors"
-                        style="background:var(--bg-subtle);cursor:pointer;"
-                        title="Cambiar tema">
-                        <span class="theme-toggle-icon">🌙</span>
-                    </button>
                 </div>
             </div>
 
-            <!-- Contenido desplegable del menú (En móvil colapsa/expande; en desktop siempre visible) -->
-            <div id="sidebarMenuContent" class="hidden md:flex flex-col flex-1 justify-between mt-3 md:mt-6 space-y-4 md:space-y-6">
+            <!-- Backdrop móvil (cierra el menú al tocar fuera sin mover nada) -->
+            <div id="mobileMenuBackdrop" class="mobile-menu-backdrop hidden md:hidden"></div>
+
+            <!-- Contenido del menú: Flotante tipo Drawer en móvil, normal en desktop -->
+            <div id="sidebarMenuContent" class="sidebar-menu-dropdown hidden md:flex flex-col flex-1 justify-between md:mt-6 space-y-4 md:space-y-6">
                 <!-- Lista de Navegación -->
                 <nav class="space-y-1">
                     <button data-tab="tab-dashboard" class="nav-item active w-full">
@@ -144,7 +140,7 @@
         <!-- Área Principal de Trabajo -->
         <main class="flex-1 flex flex-col p-3 sm:p-5 md:p-8 space-y-4 md:space-y-6 overflow-y-auto min-h-0">
 
-            <!-- Barra Superior (En escritorio muestra créditos y tema; en móvil simplificada) -->
+            <!-- Barra Superior (En escritorio muestra créditos; en móvil ya están en la barra fija) -->
             <header class="flex flex-wrap justify-between items-center app-card p-3.5 sm:p-4 rounded-xl gap-3">
                 <div>
                     <h2 id="pageHeaderTitle" class="text-base sm:text-lg font-bold">Panel Principal</h2>
@@ -158,12 +154,6 @@
                         <span id="uiCreditos" class="ui-creditos-val font-extrabold text-sm"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
-
-                    <button id="themeToggleBtn"
-                        style="background:var(--bg-subtle);border:none;border-radius:0.625rem;padding:0.375rem 0.875rem;cursor:pointer;font-size:0.75rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;font-weight:600;transition:opacity 0.15s;">
-                        <span id="themeToggleIcon" class="theme-toggle-icon">🌙</span>
-                        <span id="themeToggleLabel" class="theme-toggle-label font-medium">Modo Oscuro</span>
-                    </button>
                 </div>
             </header>
 
@@ -556,29 +546,6 @@
                             Guardar Datos del Taller
                         </button>
                     </form>
-                </div>
-
-                <!-- Panel Apariencia -->
-                <div class="app-card p-6 space-y-4">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h3 class="text-base font-bold text-white flex items-center gap-2">
-                            <span>🎨</span> Apariencia de la Pantalla
-                        </h3>
-                        <p class="text-xs text-slate-400">Ajusta el modo visual para ver mejor la pantalla en el taller
-                        </p>
-                    </div>
-
-                    <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900 border border-slate-800">
-                        <div>
-                            <p class="text-xs font-bold text-slate-200">Tema Visual</p>
-                            <p class="text-[11px] text-slate-400">Modo Oscuro (recomendado para interiores) o Modo Claro
-                            </p>
-                        </div>
-                        <select id="settingThemeSelect" class="rounded-lg px-3 py-1.5 text-xs">
-                            <option value="dark">Modo Oscuro 🌙</option>
-                            <option value="light">Modo Claro ☀️</option>
-                        </select>
-                    </div>
                 </div>
 
             </div>
