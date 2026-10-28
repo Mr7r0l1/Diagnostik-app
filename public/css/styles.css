@@ -98,6 +98,19 @@ body {
     color: #fff !important;
     box-shadow: var(--shadow-btn);
 }
+.nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.75;
+    transition: all 0.15s ease;
+}
+.nav-item:hover .nav-icon,
+.nav-item.active .nav-icon {
+    opacity: 1;
+    transform: scale(1.05);
+}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    BUTTONS

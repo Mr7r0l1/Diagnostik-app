@@ -210,7 +210,9 @@
                         class="btn-wrench-morph w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shrink-0 transition duration-200 active:scale-95 hover:scale-105"
                         style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));box-shadow:var(--shadow-btn);"
                         title="Menú de Navegación">
-                        <span class="morph-icon-wrench">🔧</span>
+                        <span class="morph-icon-wrench flex items-center justify-center">
+                            <img src="icons/wrench.svg" class="w-5 h-5 object-contain" alt="DiagnostikAI">
+                        </span>
                         <span class="morph-icon-close">✕</span>
                     </button>
                     <div>
@@ -241,23 +243,23 @@
                 <!-- Lista de Navegación -->
                 <nav class="space-y-1">
                     <button data-tab="tab-dashboard" class="nav-item active w-full">
-                        <span class="text-lg">📊</span>
+                        <img src="icons/dashboard.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Inicio / Resumen</span>
                     </button>
                     <button data-tab="tab-diag" class="nav-item w-full">
-                        <span class="text-lg">⚡</span>
+                        <img src="icons/diag.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Nuevo Diagnóstico</span>
                     </button>
                     <button data-tab="tab-historial" class="nav-item w-full">
-                        <span class="text-lg">📜</span>
+                        <img src="icons/history.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Historial de Trabajos</span>
                     </button>
                     <button data-tab="tab-tokens" class="nav-item w-full">
-                        <span class="text-lg">🪙</span>
+                        <img src="icons/token.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Comprar Tokens</span>
                     </button>
                     <button data-tab="tab-perfil" class="nav-item w-full">
-                        <span class="text-lg">⚙️</span>
+                        <img src="icons/setting.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Ajustes y Perfil</span>
                     </button>
                 </nav>
@@ -277,9 +279,10 @@
                     </div>
 
                     <button id="btnLogout"
-                        class="w-full text-xs py-2.5 rounded-xl transition-colors font-semibold flex items-center justify-center gap-1.5"
+                        class="w-full text-xs py-2.5 rounded-xl transition-colors font-semibold flex items-center justify-center gap-2"
                         style="color:#ef4444;background:rgba(239,68,68,0.08);border:none;cursor:pointer;">
-                        <span>🚪</span> Cerrar Sesión
+                        <img src="icons/logout.svg" class="w-4 h-4 object-contain" alt="" aria-hidden="true">
+                        <span>Cerrar Sesión</span>
                     </button>
                 </div>
             </div>
@@ -304,7 +307,8 @@
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
                     <button type="button" data-tab="tab-tokens" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:scale-105 transition-all" style="cursor:pointer;">
-                        <span>🪙</span> Recargar Tokens
+                        <img src="icons/token.svg" class="w-3.5 h-3.5 object-contain" alt="">
+                        <span>Recargar Tokens</span>
                     </button>
                 </div>
             </header>
@@ -339,7 +343,8 @@
                 <div class="app-card p-6 space-y-4">
                     <div>
                         <h3 class="text-base font-bold text-white flex items-center gap-2">
-                            <span>⚡</span> Carga Rápida de Pruebas (Fallas Comunes)
+                            <img src="icons/diag.svg" class="w-4 h-4 object-contain" alt="">
+                            <span>Carga Rápida de Pruebas (Fallas Comunes)</span>
                         </h3>
                         <p class="text-xs text-slate-400 mt-0.5">Presiona cualquiera para cargar datos de prueba en el
                             escáner automáticamente:</p>
@@ -383,7 +388,8 @@
                 <!-- Actividad Reciente -->
                 <div class="app-card p-6 space-y-3">
                     <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                        <span>🕒</span> Diagnósticos Recientes
+                        <img src="icons/history.svg" class="w-4 h-4 object-contain" alt="">
+                        <span>Diagnósticos Recientes</span>
                     </h3>
                     <div id="dashboardActividadReciente" class="space-y-2">
                         <p class="text-xs text-slate-400">Cargando datos...</p>
@@ -409,9 +415,9 @@
                         <div id="btnOpenVehicleModal" class="vehicle-selector-card">
                             <div class="flex items-center justify-between gap-2">
                                 <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0"
+                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
                                         style="background:var(--primary-soft);color:var(--primary);">
-                                        🚘
+                                        <img src="icons/vehicle.svg" class="w-5 h-5 object-contain" alt="Vehículo">
                                     </div>
                                     <div class="min-w-0">
                                         <p id="selectedVehicleText" class="font-extrabold text-sm truncate"
@@ -420,9 +426,10 @@
                                             style="color:var(--text-muted)">Busca por modelo o navega marca/año</p>
                                     </div>
                                 </div>
-                                <span class="text-xs font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition-colors flex items-center gap-1"
+                                <span class="text-xs font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition-colors flex items-center gap-1.5"
                                     style="background:var(--primary-soft);color:var(--primary-text)">
-                                    <span>🔍</span> <span class="hidden sm:inline">Buscar</span>
+                                    <img src="icons/search.svg" class="w-3.5 h-3.5 object-contain" alt="">
+                                    <span class="hidden sm:inline">Buscar</span>
                                 </span>
                             </div>
                         </div>
@@ -436,7 +443,8 @@
                         <summary class="flex items-center justify-between p-3 font-bold cursor-pointer select-none"
                             style="color:var(--text-secondary)">
                             <span class="flex items-center gap-2">
-                                <span>⚙️</span> Ficha Técnica Adicional (VIN, Motor, Transmisión)
+                                <img src="icons/setting.svg" class="w-4 h-4 object-contain" alt="">
+                                <span>Ficha Técnica Adicional (VIN, Motor, Transmisión)</span>
                             </span>
                             <span class="transition-transform group-open:rotate-180 text-muted">▼</span>
                         </summary>
@@ -475,7 +483,10 @@
 
                     <!-- Buscador DTC -->
                     <div class="dtc-search-section">
-                        <label class="form-label">🔍 Códigos de Falla DTC</label>
+                        <label class="form-label flex items-center gap-1.5">
+                            <img src="icons/search.svg" class="w-3.5 h-3.5 object-contain" alt="">
+                            <span>Códigos de Falla DTC</span>
+                        </label>
                         <p class="text-xs text-muted mb-2">Busca y agrega uno o varios códigos OBD2 para el diagnóstico
                         </p>
 
@@ -713,7 +724,8 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
                         <div>
                             <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
-                                <span>⚡</span> Alternativa 100% Gratuita · 0% de Comisión
+                                <img src="icons/diag.svg" class="w-3.5 h-3.5 object-contain" alt="">
+                                <span>Alternativa 100% Gratuita · 0% de Comisión</span>
                             </div>
                             <h3 class="text-lg sm:text-xl font-extrabold text-white">Recarga de Tokens para Diagnósticos</h3>
                             <p class="text-xs text-slate-400 mt-1 max-w-xl leading-relaxed">
@@ -735,8 +747,9 @@
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
-                                <span>📦</span> Selecciona tu Paquete de Tokens
+                            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                <img src="icons/token.svg" class="w-4 h-4 object-contain" alt="">
+                                <span>Selecciona tu Paquete de Tokens</span>
                             </h4>
                             <p class="text-xs text-slate-400">Elige el paquete que mejor se adapte al volumen de tu taller:</p>
                         </div>
@@ -942,9 +955,9 @@
             <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800"
                 style="background:var(--bg-subtle);">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl font-bold text-white shrink-0"
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white shrink-0 p-2"
                         style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));">
-                        🚘
+                        <img src="icons/vehicle.svg" class="w-6 h-6 object-contain" alt="Vehículo">
                     </div>
                     <div>
                         <h3 class="font-extrabold text-base" style="color:var(--text-primary)">Seleccionar Vehículo</h3>
