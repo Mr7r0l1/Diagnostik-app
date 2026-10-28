@@ -21,8 +21,9 @@
     <!-- Modal de Autenticación Multivista (Login, Registro Complejo, Verificación OTP) -->
     <div id="authModal"
         class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="app-card w-full max-w-lg border border-slate-700/80 bg-slate-900/95 shadow-2xl rounded-2xl flex flex-col max-h-[92vh] overflow-hidden">
-            
+        <div
+            class="app-card w-full max-w-lg border border-slate-700/80 bg-slate-900/95 shadow-2xl rounded-2xl flex flex-col max-h-[92vh] overflow-hidden">
+
             <!-- Cabecera del Modal -->
             <div class="p-5 sm:p-6 pb-3 text-center border-b border-slate-800 shrink-0">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-2 text-2xl text-white font-bold"
@@ -35,7 +36,7 @@
 
             <!-- Cuerpo con Scroll Suave -->
             <div class="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1">
-                
+
                 <!-- Alertas de Error y Éxito -->
                 <div id="authError"
                     class="hidden text-xs text-red-300 bg-red-500/15 border border-red-500/30 p-3 rounded-xl flex items-start gap-2.5">
@@ -51,7 +52,8 @@
                 <!-- VISTA 1: INICIO DE SESIÓN -->
                 <div id="viewLogin" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico del Taller</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico del
+                            Taller</label>
                         <input type="email" id="loginEmail" placeholder="taller@ejemplo.com" autocomplete="email"
                             class="w-full rounded-xl p-3 text-sm bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
                     </div>
@@ -60,10 +62,11 @@
                         <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"
                             class="w-full rounded-xl p-3 text-sm bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
                     </div>
-                    <button type="button" id="btnLogin" class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
+                    <button type="button" id="btnLogin"
+                        class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
                         Iniciar Sesión
                     </button>
-                    
+
                     <div class="pt-3 border-t border-slate-800 text-center">
                         <p class="text-xs text-slate-400">¿Aún no tienes cuenta para tu taller?</p>
                         <button type="button" id="btnGoToRegister"
@@ -75,9 +78,11 @@
 
                 <!-- VISTA 2: REGISTRO COMPLEJO DE TALLER -->
                 <div id="viewRegister" class="hidden space-y-4">
-                    <div class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs text-purple-200 flex items-center gap-2">
+                    <div
+                        class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs text-purple-200 flex items-center gap-2">
                         <span>🛡️</span>
-                        <span class="text-[11px] leading-tight">Configura tu taller. Requerirá confirmar tu correo con un código de seguridad.</span>
+                        <span class="text-[11px] leading-tight">Configura tu taller. Requerirá confirmar tu correo con
+                            un código de seguridad.</span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -95,7 +100,8 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre del Técnico Responsable *</label>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre del Técnico
+                                Responsable *</label>
                             <input type="text" id="regTecnicoNombre" placeholder="Ej. Carlos Mendoza"
                                 class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
                         </div>
@@ -115,18 +121,22 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Contraseña (Mín. 6 caract.) *</label>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Contraseña (Mín. 6 caract.)
+                                *</label>
                             <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password"
                                 class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Confirmar Contraseña *</label>
-                            <input type="password" id="regPasswordConfirm" placeholder="••••••••" autocomplete="new-password"
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Confirmar Contraseña
+                                *</label>
+                            <input type="password" id="regPasswordConfirm" placeholder="••••••••"
+                                autocomplete="new-password"
                                 class="w-full rounded-xl p-2.5 text-xs bg-slate-950 border border-slate-700/80 focus:border-purple-500 text-white focus:outline-none">
                         </div>
                     </div>
 
-                    <button type="button" id="btnSubmitRegister" class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
+                    <button type="button" id="btnSubmitRegister"
+                        class="w-full btn-primary text-sm py-3 font-bold rounded-xl mt-2">
                         Crear Cuenta y Enviar Código 🚀
                     </button>
 
@@ -140,7 +150,8 @@
 
                 <!-- VISTA 3: VALIDACIÓN DE CÓDIGO OTP (6 DÍGITOS) -->
                 <div id="viewOtp" class="hidden space-y-4 text-center">
-                    <div class="w-14 h-14 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center mx-auto text-2xl" id="otpIcon">
+                    <div class="w-14 h-14 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center mx-auto text-2xl"
+                        id="otpIcon">
                         ✉️
                     </div>
                     <div>
@@ -151,18 +162,22 @@
                     </div>
 
                     <div class="max-w-xs mx-auto pt-1">
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1 uppercase tracking-wider">Código de 6 Dígitos</label>
+                        <label
+                            class="block text-[11px] font-semibold text-slate-400 mb-1 uppercase tracking-wider">Código
+                            de 6 Dígitos</label>
                         <input type="text" id="otpInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
                             placeholder="000000"
                             class="w-full text-center tracking-[0.4em] font-mono text-2xl font-extrabold py-3 bg-slate-950 border-2 border-purple-500/50 rounded-xl focus:border-purple-400 text-purple-200 focus:outline-none shadow-inner">
                     </div>
 
-                    <button type="button" id="btnVerifyOtp" class="w-full btn-primary text-sm py-3 font-bold rounded-xl">
+                    <button type="button" id="btnVerifyOtp"
+                        class="w-full btn-primary text-sm py-3 font-bold rounded-xl">
                         Verificar Código y Entrar
                     </button>
 
                     <div class="flex items-center justify-between text-xs text-slate-400 pt-2 px-1">
-                        <button type="button" id="btnResendOtp" class="text-purple-400 hover:text-purple-300 font-semibold underline">
+                        <button type="button" id="btnResendOtp"
+                            class="text-purple-400 hover:text-purple-300 font-semibold underline">
                             Reenviar código
                         </button>
                         <span id="otpCooldownText" class="text-[11px] text-slate-500"></span>
@@ -205,14 +220,15 @@
                     </div>
                 </div>
 
-                <!-- Acciones rápidas visibles en móvil: Créditos -->
-                <div class="flex md:hidden items-center gap-2">
-                    <div class="flex items-center gap-1.5 text-xs py-1.5 px-3 rounded-lg border border-slate-800"
-                        style="background:var(--bg-subtle)">
+                <!-- Acciones rápidas visibles en móvil: Créditos y Recarga -->
+                <div class="flex md:hidden items-center gap-1.5">
+                    <button type="button" data-tab="tab-tokens" class="flex items-center gap-1.5 text-xs py-1.5 px-2.5 rounded-lg border border-slate-800 transition-colors active:scale-95 hover:border-purple-500"
+                        style="background:var(--bg-subtle)" title="Recargar Tokens">
                         <span class="text-[10px] text-muted">Créditos:</span>
                         <span id="uiCreditosMobile" class="ui-creditos-val font-extrabold text-xs"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
-                    </div>
+                        <span class="text-[11px] text-purple-400 font-extrabold ml-0.5">+</span>
+                    </button>
                 </div>
             </div>
 
@@ -235,6 +251,10 @@
                     <button data-tab="tab-historial" class="nav-item w-full">
                         <span class="text-lg">📜</span>
                         <span>Historial de Trabajos</span>
+                    </button>
+                    <button data-tab="tab-tokens" class="nav-item w-full">
+                        <span class="text-lg">🪙</span>
+                        <span>Comprar Tokens</span>
                     </button>
                     <button data-tab="tab-perfil" class="nav-item w-full">
                         <span class="text-lg">⚙️</span>
@@ -279,10 +299,13 @@
                 <div class="hidden md:flex items-center gap-3">
                     <div class="flex items-center gap-2 text-xs"
                         style="background:var(--bg-subtle);padding:0.375rem 0.875rem;border-radius:0.625rem;">
-                        <span class="text-muted">Créditos:</span>
+                        <span class="text-muted font-medium">Créditos restantes:</span>
                         <span id="uiCreditos" class="ui-creditos-val font-extrabold text-sm"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
+                    <button type="button" data-tab="tab-tokens" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:scale-105 transition-all" style="cursor:pointer;">
+                        <span>🪙</span> Recargar Tokens
+                    </button>
                 </div>
             </header>
 
@@ -486,7 +509,7 @@
                                 <button type="button" class="chip-sintoma">+ Consumo excesivo de combustible</button>
                             </div>
                             <textarea id="sintomas" rows="3" class="w-full form-textarea"
-                                placeholder="Describe los síntomas observados...">El motor tiembla en ralentí, pérdida de potencia y parpadea el check engine.</textarea>
+                                placeholder="Describe los síntomas observados..."></textarea>
                         </div>
 
                         <!-- Loading Status -->
@@ -676,6 +699,233 @@
                             Guardar Datos del Taller
                         </button>
                     </form>
+                </div>
+
+            </div>
+
+
+            <!-- SECCIÓN 5: RECARGA Y COMPRA DE TOKENS -->
+            <div id="tab-tokens" class="hidden space-y-6">
+
+                <!-- Banner Informativo de Saldo y Modo Gratuito SPEI -->
+                <div class="app-card p-5 sm:p-6 relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
+                                <span>⚡</span> Alternativa 100% Gratuita · 0% de Comisión
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-extrabold text-white">Recarga de Tokens para Diagnósticos</h3>
+                            <p class="text-xs text-slate-400 mt-1 max-w-xl leading-relaxed">
+                                Transfiere directamente a nuestra cuenta bancaria sin comisiones intermediarias. El 100% de tu pago se destina a créditos de diagnóstico con IA para tu taller.
+                            </p>
+                        </div>
+                        <div class="shrink-0 p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 text-center sm:text-right w-full sm:w-auto">
+                            <span class="text-[11px] text-slate-400 block">Tu saldo disponible:</span>
+                            <div class="flex items-center justify-center sm:justify-end gap-1.5 mt-0.5">
+                                <span class="ui-creditos-val text-2xl font-black text-purple-400">...</span>
+                                <span class="text-xs font-semibold text-slate-300">tokens</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500">1 token = 1 reporte completo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paquetes de Tokens Disponibles -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
+                                <span>📦</span> Selecciona tu Paquete de Tokens
+                            </h4>
+                            <p class="text-xs text-slate-400">Elige el paquete que mejor se adapte al volumen de tu taller:</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Paquete 1: Básico -->
+                        <div class="token-pack-card app-card p-5 border border-slate-800 hover:border-slate-700 rounded-2xl cursor-pointer transition-all active:scale-[0.99] relative flex flex-col justify-between"
+                            data-pack-name="Pack Básico (20 Tokens)" data-pack-tokens="20" data-pack-price="$99 MXN">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Taller Ocasional</span>
+                                <h5 class="text-base font-extrabold text-white">Pack Básico</h5>
+                                <div class="my-3">
+                                    <span class="text-3xl font-black text-white">$99</span>
+                                    <span class="text-xs text-slate-400 font-semibold">MXN</span>
+                                    <span class="block text-[11px] text-slate-400 mt-0.5">~$4.95 MXN por diagnóstico</span>
+                                </div>
+                                <ul class="text-xs text-slate-300 space-y-2 mt-4">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> <b>20 Tokens</b> de diagnóstico
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Sin fecha de caducidad
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Generación y descarga de PDF
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-5 pt-3 border-t border-slate-800/80 text-center">
+                                <span class="text-xs font-semibold text-purple-400 select-indicator">Seleccionar este paquete</span>
+                            </div>
+                        </div>
+
+                        <!-- Paquete 2: Taller Pro (Recomendado) -->
+                        <div class="token-pack-card app-card p-5 border-2 border-purple-500 bg-purple-950/20 ring-2 ring-purple-500/40 rounded-2xl cursor-pointer transition-all active:scale-[0.99] relative flex flex-col justify-between shadow-xl"
+                            data-pack-name="Pack Taller Pro (60 Tokens)" data-pack-tokens="60" data-pack-price="$249 MXN">
+                            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-md uppercase tracking-wider">
+                                ⭐ Más Elegido
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1">Uso Frecuente</span>
+                                <h5 class="text-base font-extrabold text-white">Pack Taller Pro</h5>
+                                <div class="my-3">
+                                    <span class="text-3xl font-black text-white">$249</span>
+                                    <span class="text-xs text-slate-400 font-semibold">MXN</span>
+                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$4.15 MXN por diagnóstico (Ahorro 16%)</span>
+                                </div>
+                                <ul class="text-xs text-slate-300 space-y-2 mt-4">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> <b>60 Tokens</b> de diagnóstico
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Sin fecha de caducidad
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Historial técnico permanente
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Acreditación prioritaria
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-5 pt-3 border-t border-purple-500/30 text-center">
+                                <span class="text-xs font-bold text-purple-300 select-indicator">Paquete Seleccionado ✓</span>
+                            </div>
+                        </div>
+
+                        <!-- Paquete 3: Taller Master -->
+                        <div class="token-pack-card app-card p-5 border border-slate-800 hover:border-slate-700 rounded-2xl cursor-pointer transition-all active:scale-[0.99] relative flex flex-col justify-between"
+                            data-pack-name="Pack Taller Master (150 Tokens)" data-pack-tokens="150" data-pack-price="$499 MXN">
+                            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-slate-800 border border-slate-700 shadow-sm uppercase tracking-wider">
+                                🚀 Máximo Ahorro
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Alto Rendimiento</span>
+                                <h5 class="text-base font-extrabold text-white">Pack Taller Master</h5>
+                                <div class="my-3">
+                                    <span class="text-3xl font-black text-white">$499</span>
+                                    <span class="text-xs text-slate-400 font-semibold">MXN</span>
+                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$3.32 MXN por diagnóstico (Ahorro 33%)</span>
+                                </div>
+                                <ul class="text-xs text-slate-300 space-y-2 mt-4">
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> <b>150 Tokens</b> de diagnóstico
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Sin fecha de caducidad
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Reportes y PDF ilimitados
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="text-purple-400">✓</span> Soporte técnico preferente
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-5 pt-3 border-t border-slate-800/80 text-center">
+                                <span class="text-xs font-semibold text-purple-400 select-indicator">Seleccionar este paquete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Principal de Transferencia Bancaria (Nu) -->
+                <div class="app-card p-6 border border-slate-800 bg-slate-900/90 rounded-2xl space-y-5">
+                    <div class="border-b border-slate-800 pb-4">
+                        <div class="flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-wider mb-1">
+                            <span>🏛️</span> Método 100% Gratuito (0% Comisiones)
+                        </div>
+                        <h4 class="text-base sm:text-lg font-bold text-white">Transferencia Directa (SPEI / CLABE)</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Realiza la transferencia desde la aplicación de cualquier banco en México (BBVA, Nu, Banorte, Santander, Mercado Pago, etc.) con acreditación rápida.
+                        </p>
+                    </div>
+
+                    <!-- Datos Bancarios Destacados -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Banco Receptor</span>
+                            <div class="flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-md bg-purple-700 text-white font-bold text-xs flex items-center justify-center shrink-0">nu</span>
+                                <span class="text-sm sm:text-base font-extrabold text-white">Nu México (Nu)</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1 md:col-span-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">CLABE Interbancaria (18 dígitos)</span>
+                                <button type="button" id="btnCopiarClabe"
+                                    class="text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 active:scale-95"
+                                    title="Copiar CLABE al portapapeles">
+                                    Copiar CLABE
+                                </button>
+                            </div>
+                            <p class="text-base sm:text-lg font-mono font-extrabold text-purple-300 tracking-wider select-all break-all">
+                                6381 8001 0181 7751 70
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Titular / Beneficiario</span>
+                            <p class="text-sm sm:text-base font-bold text-white">Jose Armando Holguin Barraza</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Concepto de Pago Sugerido</span>
+                            <p class="text-sm sm:text-base font-mono font-semibold text-slate-300">Recarga DiagnostikAI</p>
+                        </div>
+                    </div>
+
+                    <!-- Pasos para completar la recarga -->
+                    <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 space-y-3">
+                        <h5 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>📋</span> ¿Cómo se acreditan tus tokens? (3 Pasos Rápidos)
+                        </h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300">
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">1</span>
+                                <span class="leading-relaxed">Transfiere el monto del paquete elegido a la <b>CLABE de Nu</b> indicada arriba.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">2</span>
+                                <span class="leading-relaxed">Toma una <b>captura de pantalla</b> o descarga el comprobante digital de tu banco.</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">3</span>
+                                <span class="leading-relaxed">Presiona el botón de abajo para enviar el comprobante por <b>WhatsApp</b> y listo.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Confirmación por WhatsApp -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-xs text-slate-400 text-center sm:text-left">
+                            <p class="font-semibold text-slate-300">Atención personalizada y acreditación rápida</p>
+                            <p class="text-[11px]">WhatsApp oficial: <span class="font-mono text-slate-200 font-bold">+52 656 600 3508</span></p>
+                        </div>
+
+                        <a id="btnWhatsAppRecarga"
+                            href="https://wa.me/526566003508?text=Hola%2C%20quiero%20continuar%20con%20el%20proceso%20de%20recarga%20de%20tokens%20para%20mi%20taller%20en%20DiagnostikAI."
+                            target="_blank" rel="noopener noreferrer"
+                            class="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold rounded-xl flex items-center justify-center gap-2.5 text-sm transition-all shadow-lg shadow-emerald-950/40 cursor-pointer">
+                            <span class="text-lg">💬</span>
+                            <span>Confirmar Pago por WhatsApp</span>
+                        </a>
+                    </div>
                 </div>
 
             </div>
