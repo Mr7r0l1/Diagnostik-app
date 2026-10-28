@@ -19,16 +19,6 @@ export function switchTab(tabId) {
         }
     });
 
-    // Actualizar barra de navegación inferior en móviles
-    document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
-        const targetTab = btn.getAttribute('data-tab');
-        if (targetTab === navActiva) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-
     // Update page title section header if present
     const titleMap = {
         'tab-dashboard': { title: 'Panel Principal', subtitle: 'Resumen de actividad y métricas clave' },
