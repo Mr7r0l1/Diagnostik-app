@@ -61,7 +61,7 @@ export function renderizarListaFiltrada(reportes) {
                     </div>
                 </div>
                 <button data-id="${r.id}" class="btn-ver-historial text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-lg border border-slate-600 transition-colors flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
-                    <span>👁️</span> Ver Reporte Completo
+                    <img src="icons/eye.svg" class="w-4 h-4 object-contain" alt="">
                 </button>
             </div>
         `;

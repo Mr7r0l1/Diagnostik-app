@@ -224,7 +224,8 @@
 
                 <!-- Acciones rápidas visibles en móvil: Créditos y Recarga -->
                 <div class="flex md:hidden items-center gap-1.5">
-                    <button type="button" data-tab="tab-tokens" class="flex items-center gap-1.5 text-xs py-1.5 px-2.5 rounded-lg border border-slate-800 transition-colors active:scale-95 hover:border-purple-500"
+                    <button type="button" data-tab="tab-tokens"
+                        class="flex items-center gap-1.5 text-xs py-1.5 px-2.5 rounded-lg border border-slate-800 transition-colors active:scale-95 hover:border-purple-500"
                         style="background:var(--bg-subtle)" title="Recargar Tokens">
                         <span class="text-[10px] text-muted">Créditos:</span>
                         <span id="uiCreditosMobile" class="ui-creditos-val font-extrabold text-xs"
@@ -306,7 +307,9 @@
                         <span id="uiCreditos" class="ui-creditos-val font-extrabold text-sm"
                             style="background:linear-gradient(135deg,var(--grad-start),var(--grad-end));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">...</span>
                     </div>
-                    <button type="button" data-tab="tab-tokens" class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:scale-105 transition-all" style="cursor:pointer;">
+                    <button type="button" data-tab="tab-tokens"
+                        class="btn-primary text-xs py-2 px-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-sm active:scale-95 hover:scale-105 transition-all"
+                        style="cursor:pointer;">
                         <img src="icons/token.svg" class="w-3.5 h-3.5 object-contain" alt="">
                         <span>Recargar Tokens</span>
                     </button>
@@ -405,7 +408,10 @@
 
                     <!-- Encabezado del formulario -->
                     <div class="form-section-header shrink-0">
-                        <h3 class="form-section-title">📋 Capturar Datos del Vehículo</h3>
+                        <h3 class="form-section-title">
+                            <img src="icons/clipboard-notes.svg" class="w-4 h-4 object-contain" alt="">
+                            <span>Capturar Datos del Vehículo</span>
+                        </h3>
                         <p class="form-section-sub">Completa la información leída por el escáner del taller</p>
                     </div>
 
@@ -426,7 +432,8 @@
                                             style="color:var(--text-muted)">Busca por modelo o navega marca/año</p>
                                     </div>
                                 </div>
-                                <span class="text-xs font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition-colors flex items-center gap-1.5"
+                                <span
+                                    class="text-xs font-bold px-2.5 py-1.5 rounded-lg shrink-0 transition-colors flex items-center gap-1.5"
                                     style="background:var(--primary-soft);color:var(--primary-text)">
                                     <img src="icons/search.svg" class="w-3.5 h-3.5 object-contain" alt="">
                                     <span class="hidden sm:inline">Buscar</span>
@@ -513,11 +520,16 @@
                         <div class="space-y-2">
                             <label class="form-label">Síntomas o Falla Observada</label>
                             <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Tiembla en ralentí</button>
-                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Humo negro</button>
-                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Pérdida potencia</button>
-                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Arranca difícil</button>
-                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Consumo excesivo</button>
+                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Tiembla en
+                                    ralentí</button>
+                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Humo
+                                    negro</button>
+                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Pérdida
+                                    potencia</button>
+                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Arranca
+                                    difícil</button>
+                                <button type="button" class="chip-sintoma shrink-0 whitespace-nowrap">+ Consumo
+                                    excesivo</button>
                             </div>
                             <textarea id="sintomas" rows="3" class="w-full form-textarea"
                                 placeholder="Describe los síntomas observados..."></textarea>
@@ -586,7 +598,7 @@
                 <!-- Filtros -->
                 <div class="app-card p-4 flex flex-wrap items-center justify-between gap-3">
                     <div class="flex items-center gap-2 flex-1 min-w-[240px]">
-                        <span class="text-slate-400">🔍</span>
+                        <img src="icons/search.svg" class="w-4 h-4 object-contain" alt="">
                         <input type="text" id="searchHistorial" placeholder="Buscar por código DTC, marca o modelo..."
                             class="w-full rounded-lg px-3 py-2 text-xs">
                     </div>
@@ -720,19 +732,26 @@
 
                 <!-- Banner Informativo de Saldo y Modo Gratuito SPEI -->
                 <div class="app-card p-5 sm:p-6 relative overflow-hidden">
-                    <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
+                    <div
+                        class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-purple-600/10 blur-3xl pointer-events-none">
+                    </div>
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
                         <div>
-                            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
+                            <div
+                                class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
                                 <img src="icons/diag.svg" class="w-3.5 h-3.5 object-contain" alt="">
                                 <span>Alternativa 100% Gratuita · 0% de Comisión</span>
                             </div>
-                            <h3 class="text-lg sm:text-xl font-extrabold text-white">Recarga de Tokens para Diagnósticos</h3>
+                            <h3 class="text-lg sm:text-xl font-extrabold text-white">Recarga de Tokens para Diagnósticos
+                            </h3>
                             <p class="text-xs text-slate-400 mt-1 max-w-xl leading-relaxed">
-                                Transfiere directamente a nuestra cuenta bancaria sin comisiones intermediarias. El 100% de tu pago se destina a créditos de diagnóstico con IA para tu taller.
+                                Transfiere directamente a nuestra cuenta bancaria sin comisiones intermediarias. El 100%
+                                de tu pago se destina a créditos de diagnóstico con IA para tu taller.
                             </p>
                         </div>
-                        <div class="shrink-0 p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 text-center sm:text-right w-full sm:w-auto">
+                        <div
+                            class="shrink-0 p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 text-center sm:text-right w-full sm:w-auto">
                             <span class="text-[11px] text-slate-400 block">Tu saldo disponible:</span>
                             <div class="flex items-center justify-center sm:justify-end gap-1.5 mt-0.5">
                                 <span class="ui-creditos-val text-2xl font-black text-purple-400">...</span>
@@ -751,7 +770,8 @@
                                 <img src="icons/token.svg" class="w-4 h-4 object-contain" alt="">
                                 <span>Selecciona tu Paquete de Tokens</span>
                             </h4>
-                            <p class="text-xs text-slate-400">Elige el paquete que mejor se adapte al volumen de tu taller:</p>
+                            <p class="text-xs text-slate-400">Elige el paquete que mejor se adapte al volumen de tu
+                                taller:</p>
                         </div>
                     </div>
 
@@ -760,12 +780,15 @@
                         <div class="token-pack-card app-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between"
                             data-pack-name="Pack Básico (20 Tokens)" data-pack-tokens="20" data-pack-price="$99 MXN">
                             <div>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Taller Ocasional</span>
+                                <span
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Taller
+                                    Ocasional</span>
                                 <h5 class="text-base font-extrabold text-white">Pack Básico</h5>
                                 <div class="my-3">
                                     <span class="text-3xl font-black text-white">$99</span>
                                     <span class="text-xs text-slate-400 font-semibold">MXN</span>
-                                    <span class="block text-[11px] text-slate-400 mt-0.5">~$4.95 MXN por diagnóstico</span>
+                                    <span class="block text-[11px] text-slate-400 mt-0.5">~$4.95 MXN por
+                                        diagnóstico</span>
                                 </div>
                                 <ul class="text-xs text-slate-300 space-y-2 mt-4">
                                     <li class="flex items-center gap-2">
@@ -780,23 +803,29 @@
                                 </ul>
                             </div>
                             <div class="mt-6 pt-3 border-t border-slate-800/80 text-center">
-                                <span class="select-indicator text-xs font-semibold text-slate-400">Seleccionar este paquete</span>
+                                <span class="select-indicator text-xs font-semibold text-slate-400">Seleccionar este
+                                    paquete</span>
                             </div>
                         </div>
 
                         <!-- Paquete 2: Taller Pro (Recomendado) -->
                         <div class="token-pack-card is-selected app-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between"
-                            data-pack-name="Pack Taller Pro (60 Tokens)" data-pack-tokens="60" data-pack-price="$249 MXN">
-                            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-md uppercase tracking-wider">
+                            data-pack-name="Pack Taller Pro (60 Tokens)" data-pack-tokens="60"
+                            data-pack-price="$249 MXN">
+                            <div
+                                class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-md uppercase tracking-wider">
                                 ⭐ Más Elegido
                             </div>
                             <div>
-                                <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1">Uso Frecuente</span>
+                                <span
+                                    class="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1">Uso
+                                    Frecuente</span>
                                 <h5 class="text-base font-extrabold text-white">Pack Taller Pro</h5>
                                 <div class="my-3">
                                     <span class="text-3xl font-black text-white">$249</span>
                                     <span class="text-xs text-slate-400 font-semibold">MXN</span>
-                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$4.15 MXN por diagnóstico (Ahorro 16%)</span>
+                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$4.15 MXN por
+                                        diagnóstico (Ahorro 16%)</span>
                                 </div>
                                 <ul class="text-xs text-slate-300 space-y-2 mt-4">
                                     <li class="flex items-center gap-2">
@@ -814,27 +843,34 @@
                                 </ul>
                             </div>
                             <div class="mt-6 pt-3 border-t border-slate-800/80 text-center">
-                                <span class="select-indicator text-xs font-bold text-purple-300">Paquete Seleccionado ✓</span>
+                                <span class="select-indicator text-xs font-bold text-purple-300">Paquete Seleccionado
+                                    ✓</span>
                             </div>
                         </div>
 
                         <!-- Paquete 3: Taller Master -->
                         <div class="token-pack-card app-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between"
-                            data-pack-name="Pack Taller Master (150 Tokens)" data-pack-tokens="150" data-pack-price="$499 MXN">
-                            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-slate-800 border border-slate-700 shadow-sm uppercase tracking-wider">
+                            data-pack-name="Pack Taller Master (150 Tokens)" data-pack-tokens="150"
+                            data-pack-price="$499 MXN">
+                            <div
+                                class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-white bg-slate-800 border border-slate-700 shadow-sm uppercase tracking-wider">
                                 🚀 Máximo Ahorro
                             </div>
                             <div>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Alto Rendimiento</span>
+                                <span
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Alto
+                                    Rendimiento</span>
                                 <h5 class="text-base font-extrabold text-white">Pack Taller Master</h5>
                                 <div class="my-3">
                                     <span class="text-3xl font-black text-white">$499</span>
                                     <span class="text-xs text-slate-400 font-semibold">MXN</span>
-                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$3.32 MXN por diagnóstico (Ahorro 33%)</span>
+                                    <span class="block text-[11px] text-emerald-400 font-semibold mt-0.5">~$3.32 MXN por
+                                        diagnóstico (Ahorro 33%)</span>
                                 </div>
                                 <ul class="text-xs text-slate-300 space-y-2 mt-4">
                                     <li class="flex items-center gap-2">
-                                        <span class="text-purple-400 font-bold">✓</span> <b>150 Tokens</b> de diagnóstico
+                                        <span class="text-purple-400 font-bold">✓</span> <b>150 Tokens</b> de
+                                        diagnóstico
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <span class="text-purple-400 font-bold">✓</span> Sin fecha de caducidad
@@ -848,7 +884,8 @@
                                 </ul>
                             </div>
                             <div class="mt-6 pt-3 border-t border-slate-800/80 text-center">
-                                <span class="select-indicator text-xs font-semibold text-slate-400">Seleccionar este paquete</span>
+                                <span class="select-indicator text-xs font-semibold text-slate-400">Seleccionar este
+                                    paquete</span>
                             </div>
                         </div>
                     </div>
@@ -857,35 +894,42 @@
                 <!-- Tarjeta Principal de Transferencia Bancaria (Nu) -->
                 <div class="app-card p-6 border border-slate-800 bg-slate-900/90 rounded-2xl space-y-5">
                     <div class="border-b border-slate-800 pb-4">
-                        <div class="flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-wider mb-1">
+                        <div
+                            class="flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-wider mb-1">
                             <span>🏛️</span> Método 100% Gratuito (0% Comisiones)
                         </div>
                         <h4 class="text-base sm:text-lg font-bold text-white">Transferencia Directa (SPEI / CLABE)</h4>
                         <p class="text-xs text-slate-400 mt-0.5">
-                            Realiza la transferencia desde la aplicación de cualquier banco en México (BBVA, Nu, Banorte, Santander, Mercado Pago, etc.) con acreditación rápida.
+                            Realiza la transferencia desde la aplicación de cualquier banco en México (BBVA, Nu,
+                            Banorte, Santander, Mercado Pago, etc.) con acreditación rápida.
                         </p>
                     </div>
 
                     <!-- Datos Bancarios Destacados -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Banco Receptor</span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Banco
+                                Receptor</span>
                             <div class="flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-md bg-purple-700 text-white font-bold text-xs flex items-center justify-center shrink-0">nu</span>
+                                <span
+                                    class="w-6 h-6 rounded-md bg-purple-700 text-white font-bold text-xs flex items-center justify-center shrink-0">nu</span>
                                 <span class="text-sm sm:text-base font-extrabold text-white">Nu México (Nu)</span>
                             </div>
                         </div>
 
                         <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1 md:col-span-2">
                             <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">CLABE Interbancaria (18 dígitos)</span>
+                                <span
+                                    class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">CLABE
+                                    Interbancaria (18 dígitos)</span>
                                 <button type="button" id="btnCopiarClabe"
                                     class="text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 active:scale-95"
                                     title="Copiar CLABE al portapapeles">
                                     Copiar CLABE
                                 </button>
                             </div>
-                            <p class="text-base sm:text-lg font-mono font-extrabold text-purple-300 tracking-wider select-all break-all">
+                            <p
+                                class="text-base sm:text-lg font-mono font-extrabold text-purple-300 tracking-wider select-all break-all">
                                 6381 8001 0181 7751 70
                             </p>
                         </div>
@@ -893,33 +937,45 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Titular / Beneficiario</span>
+                            <span
+                                class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Titular
+                                / Beneficiario</span>
                             <p class="text-sm sm:text-base font-bold text-white">Jose Armando Holguin Barraza</p>
                         </div>
 
                         <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Concepto de Pago Sugerido</span>
-                            <p class="text-sm sm:text-base font-mono font-semibold text-slate-300">Recarga DiagnostikAI</p>
+                            <span
+                                class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Concepto
+                                de Pago Sugerido</span>
+                            <p class="text-sm sm:text-base font-mono font-semibold text-slate-300">Recarga DiagnostikAI
+                            </p>
                         </div>
                     </div>
 
                     <!-- Pasos para completar la recarga -->
                     <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 space-y-3">
-                        <h5 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <h5
+                            class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
                             <span>📋</span> ¿Cómo se acreditan tus tokens? (3 Pasos Rápidos)
                         </h5>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300">
                             <div class="flex items-start gap-2.5">
-                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">1</span>
-                                <span class="leading-relaxed">Transfiere el monto del paquete elegido a la <b>CLABE de Nu</b> indicada arriba.</span>
+                                <span
+                                    class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">1</span>
+                                <span class="leading-relaxed">Transfiere el monto del paquete elegido a la <b>CLABE de
+                                        Nu</b> indicada arriba.</span>
                             </div>
                             <div class="flex items-start gap-2.5">
-                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">2</span>
-                                <span class="leading-relaxed">Toma una <b>captura de pantalla</b> o descarga el comprobante digital de tu banco.</span>
+                                <span
+                                    class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">2</span>
+                                <span class="leading-relaxed">Toma una <b>captura de pantalla</b> o descarga el
+                                    comprobante digital de tu banco.</span>
                             </div>
                             <div class="flex items-start gap-2.5">
-                                <span class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">3</span>
-                                <span class="leading-relaxed">Presiona el botón de abajo para enviar el comprobante por <b>WhatsApp</b> y listo.</span>
+                                <span
+                                    class="w-5 h-5 rounded-full bg-purple-600/40 border border-purple-500 text-white font-bold flex items-center justify-center shrink-0 text-[11px]">3</span>
+                                <span class="leading-relaxed">Presiona el botón de abajo para enviar el comprobante por
+                                    <b>WhatsApp</b> y listo.</span>
                             </div>
                         </div>
                     </div>
@@ -928,7 +984,8 @@
                     <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="text-xs text-slate-400 text-center sm:text-left">
                             <p class="font-semibold text-slate-300">Atención personalizada y acreditación rápida</p>
-                            <p class="text-[11px]">WhatsApp oficial: <span class="font-mono text-slate-200 font-bold">+52 656 600 3508</span></p>
+                            <p class="text-[11px]">WhatsApp oficial: <span
+                                    class="font-mono text-slate-200 font-bold">+52 656 600 3508</span></p>
                         </div>
 
                         <a id="btnWhatsAppRecarga"
