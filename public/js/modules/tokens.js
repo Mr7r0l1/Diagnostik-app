@@ -10,7 +10,7 @@ const NUMERO_WHATSAPP = '526566003508';
 const CLABE_NUMERO = '638180010181775170';
 
 export function initTokensListeners(getUsuarioEmail) {
-    // 1. Botón Copiar CLABE
+    // 1. Botón Copiar CLABE con feedback visual
     const btnCopiar = document.getElementById('btnCopiarClabe');
     if (btnCopiar) {
         btnCopiar.addEventListener('click', async () => {
@@ -24,7 +24,6 @@ export function initTokensListeners(getUsuarioEmail) {
                     btnCopiar.classList.remove('bg-emerald-600', 'text-white');
                 }, 2500);
             } catch (err) {
-                // Respaldo manual
                 const inputTemp = document.createElement('input');
                 inputTemp.value = CLABE_NUMERO;
                 document.body.appendChild(inputTemp);
@@ -36,29 +35,48 @@ export function initTokensListeners(getUsuarioEmail) {
         });
     }
 
-    // 2. Selección interactiva de paquetes
+    // 2. Selección interactiva y reactiva de paquetes
     const packCards = document.querySelectorAll('.token-pack-card');
+
+    function seleccionarTarjeta(card) {
+        packCards.forEach(c => {
+            c.classList.remove('is-selected');
+            const indicator = c.querySelector('.select-indicator');
+            if (indicator) {
+                indicator.textContent = 'Seleccionar este paquete';
+                indicator.className = 'select-indicator text-xs font-semibold text-slate-400 transition-colors';
+            }
+        });
+
+        // Activar la tarjeta seleccionada
+        card.classList.add('is-selected');
+        const selectedIndicator = card.querySelector('.select-indicator');
+        if (selectedIndicator) {
+            selectedIndicator.textContent = 'Paquete Seleccionado ✓';
+            selectedIndicator.className = 'select-indicator text-xs font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-300 transition-all';
+        }
+
+        const nombre = card.getAttribute('data-pack-name') || 'Paquete de Tokens';
+        const tokens = card.getAttribute('data-pack-tokens') || '60';
+        const precio = card.getAttribute('data-pack-price') || '$249 MXN';
+
+        paqueteSeleccionado = { nombre, tokens, precio };
+        actualizarEnlaceWhatsApp(getUsuarioEmail ? getUsuarioEmail() : null);
+    }
+
     packCards.forEach(card => {
         card.addEventListener('click', () => {
-            packCards.forEach(c => {
-                c.classList.remove('border-purple-500', 'bg-purple-950/20', 'ring-2', 'ring-purple-500/40');
-                c.classList.add('border-slate-800');
-            });
-
-            card.classList.remove('border-slate-800');
-            card.classList.add('border-purple-500', 'bg-purple-950/20', 'ring-2', 'ring-purple-500/40');
-
-            const nombre = card.getAttribute('data-pack-name') || 'Paquete de Tokens';
-            const tokens = card.getAttribute('data-pack-tokens') || '60';
-            const precio = card.getAttribute('data-pack-price') || '$249 MXN';
-
-            paqueteSeleccionado = { nombre, tokens, precio };
-            actualizarEnlaceWhatsApp(getUsuarioEmail ? getUsuarioEmail() : null);
+            seleccionarTarjeta(card);
         });
     });
 
-    // 3. Inicializar enlace de WhatsApp
-    actualizarEnlaceWhatsApp(getUsuarioEmail ? getUsuarioEmail() : null);
+    // Iniciar con la tarjeta que tenga 'is-selected' o la del centro
+    const cardInicial = document.querySelector('.token-pack-card.is-selected') || packCards[1] || packCards[0];
+    if (cardInicial) {
+        seleccionarTarjeta(cardInicial);
+    } else {
+        actualizarEnlaceWhatsApp(getUsuarioEmail ? getUsuarioEmail() : null);
+    }
 }
 
 export function actualizarEnlaceWhatsApp(userEmail) {
