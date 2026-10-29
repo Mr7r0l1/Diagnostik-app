@@ -43,3 +43,28 @@ export async function guardarTallerAPI(userId, payload) {
         body: JSON.stringify(payload)
     });
 }
+
+export async function generarPresupuestoAPI(payload) {
+    return request('/api/presupuestos/generar', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    });
+}
+
+export async function actualizarPresupuestoAPI(id, payload) {
+    return request(`/api/presupuestos/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+    });
+}
+
+export async function obtenerPresupuestosAPI(userId) {
+    return request(`/api/presupuestos/${userId}`);
+}
+
+export async function eliminarPresupuestoAPI(id, userId) {
+    return request(`/api/presupuestos/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ userId })
+    });
+}

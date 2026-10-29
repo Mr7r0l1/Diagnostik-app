@@ -255,6 +255,10 @@
                         <img src="icons/history.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Historial de Trabajos</span>
                     </button>
+                    <button data-tab="tab-presupuestos" class="nav-item w-full">
+                        <img src="icons/clipboard-notes.svg" class="nav-icon" alt="" aria-hidden="true">
+                        <span>Presupuestos</span>
+                    </button>
                     <button data-tab="tab-tokens" class="nav-item w-full">
                         <img src="icons/token.svg" class="nav-icon" alt="" aria-hidden="true">
                         <span>Comprar Tokens</span>
@@ -584,11 +588,15 @@
                         <!-- Cuerpo dinámico -->
                         <div id="cuerpoReporte" class="space-y-4 text-sm"></div>
 
-                        <!-- Descargar PDF -->
-                        <button id="btnDescargarPdf" class="btn-success w-full">
-                            <span>📄</span> Imprimir / Descargar PDF para Cliente
-
-                        </button>
+                        <!-- Acciones del Reporte: Cotizar Presupuesto Gratis e Imprimir -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="button" id="btnCotizarReporteReciente" class="btn-generate w-full py-2.5 text-xs sm:text-sm">
+                                <span>💰</span> Cotizar Presupuesto con IA (Gratis)
+                            </button>
+                            <button type="button" id="btnDescargarPdf" class="btn-success w-full py-2.5 text-xs sm:text-sm">
+                                <span>📄</span> Imprimir / Descargar PDF
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -623,6 +631,231 @@
             <!-- SECCIÓN 2b: CONSULTA DE REPORTE (solo lectura) -->
             <div id="tab-reporte-ver" class="hidden">
                 <div id="reporteVerContenido" class="space-y-5"></div>
+            </div>
+
+            <!-- SECCIÓN 2c: PRESUPUESTOS CON IA -->
+            <div id="tab-presupuestos" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 items-start">
+
+                    <!-- Columna Izquierda: Configuración Simple del Presupuesto -->
+                    <div class="lg:col-span-5 app-card p-4 sm:p-5 space-y-4">
+                        <div class="flex items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                            <div>
+                                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                    <span>💰</span>
+                                    <span>Crear Presupuesto</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Calcula piezas y mano de obra según tu ciudad</p>
+                            </div>
+                            <span id="presCostoBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                ✨ GRATIS
+                            </span>
+                        </div>
+
+                        <!-- Selector de modo: Desde Reporte vs Desde Cero -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" id="btnModoReporte"
+                                class="py-2 px-3 rounded-xl text-xs font-bold border transition-all bg-purple-600 text-white border-purple-500">
+                                📋 Desde un Reporte
+                            </button>
+                            <button type="button" id="btnModoManual"
+                                class="py-2 px-3 rounded-xl text-xs font-bold border transition-all bg-slate-900 text-slate-400 border-slate-700">
+                                ✍️ Desde Cero
+                            </button>
+                        </div>
+
+                        <form id="presupuestoForm" class="space-y-3.5">
+                            <!-- Selector de Reporte Existente -->
+                            <div id="presBloqueReporte">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Elegir Reporte de Diagnóstico</label>
+                                <select id="presSelectReporte" class="w-full rounded-lg p-2.5 text-xs">
+                                    <option value="">-- Selecciona un reporte de tu historial --</option>
+                                </select>
+                                <p class="text-[11px] text-slate-400 mt-1">El primer presupuesto de cada reporte es gratis.</p>
+                            </div>
+
+                            <!-- Marca y Modelo -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Marca</label>
+                                    <input type="text" id="presMarca" placeholder="Ej. Nissan" required
+                                        class="w-full rounded-lg p-2.5 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Modelo / Año</label>
+                                    <input type="text" id="presModelo" placeholder="Ej. Sentra 2019" required
+                                        class="w-full rounded-lg p-2.5 text-xs">
+                                </div>
+                            </div>
+
+                            <!-- ¿Qué se va a reemplazar o reparar? -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">¿Qué se va a reemplazar o reparar?</label>
+                                <textarea id="presDescripcionTrabajo" rows="3" required
+                                    placeholder="Describe las piezas a cambiar o la reparación a realizar (ej. Cambio de bomba de agua, termostato y anticongelante)..."
+                                    class="w-full rounded-lg p-2.5 text-xs"></textarea>
+                            </div>
+
+                            <!-- Preferencia de condición de las piezas -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tipo de Piezas a Cotizar</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button type="button" data-cond="Nueva"
+                                        class="btn-pref-piezas py-2 px-2 rounded-lg text-xs font-bold border transition-all bg-emerald-600 text-white border-emerald-500">
+                                        ✨ Nuevas
+                                    </button>
+                                    <button type="button" data-cond="Segunda Mano"
+                                        class="btn-pref-piezas py-2 px-2 rounded-lg text-xs font-bold border transition-all bg-slate-900 text-slate-400 border-slate-700">
+                                        🔄 2da Mano
+                                    </button>
+                                    <button type="button" data-cond="Mixta"
+                                        class="btn-pref-piezas py-2 px-2 rounded-lg text-xs font-bold border transition-all bg-slate-900 text-slate-400 border-slate-700">
+                                        ⚖️ Mixtas
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Ciudad de referencia -->
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <label class="text-xs font-semibold text-slate-300">Ciudad del Taller (para precios locales)</label>
+                                    <span class="text-[11px] font-mono font-bold text-emerald-400">Moneda: <span class="ui-moneda-taller">MXN</span></span>
+                                </div>
+                                <input type="text" id="presCiudad" placeholder="Ej. Ciudad Juárez, Chih."
+                                    class="w-full rounded-lg p-2.5 text-xs">
+                            </div>
+
+                            <button type="submit" id="btnGenerarPresupuesto" class="btn-generate w-full">
+                                <span>⚡</span> <span id="presBtnGenerarTexto">Generar Presupuesto con IA</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Columna Derecha: Editor Interactivo del Presupuesto -->
+                    <div class="lg:col-span-7 space-y-5">
+
+                        <!-- Estado inicial cuando aún no hay un presupuesto abierto -->
+                        <div id="presEstadoVacio" class="app-card p-8 text-center space-y-2">
+                            <div class="text-3xl">🧾</div>
+                            <h4 class="text-sm font-bold text-slate-200">Ningún presupuesto activo en el editor</h4>
+                            <p class="text-xs text-slate-400 max-w-md mx-auto">
+                                Selecciona un reporte o describe la reparación a la izquierda para que la IA calcule las piezas y mano de obra, o selecciona un presupuesto guardado abajo.
+                            </p>
+                        </div>
+
+                        <!-- Hoja Editable del Presupuesto -->
+                        <div id="hojaPresupuestoEditor" class="app-card p-4 sm:p-6 hidden space-y-5">
+                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span id="presEditorFolio" class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700">PRE-000</span>
+                                        <h3 id="presEditorVehiculo" class="text-base font-bold text-white">Vehículo</h3>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-1">📍 Precios estimados en <span id="presEditorCiudad" class="text-slate-300 font-medium"></span> · Todo es editable</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button type="button" id="btnGuardarCambiosPres" class="btn-primary text-xs py-2 px-3.5">
+                                        💾 Guardar Cambios
+                                    </button>
+                                    <button type="button" id="btnImprimirPresupuesto" class="btn-success text-xs py-2 px-3.5">
+                                        📄 Imprimir / PDF
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Tabla Editable de Piezas y Refacciones -->
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <p class="report-section-title emerald mb-0">🔩 Piezas y Refacciones</p>
+                                    <button type="button" id="btnAgregarPiezaPres" class="btn-add-item text-xs py-1 px-3">
+                                        + Agregar Pieza
+                                    </button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-800 text-[11px] font-bold uppercase text-slate-400">
+                                                <th class="py-2 pr-2">Pieza / Refacción</th>
+                                                <th class="py-2 px-1.5 text-center">Condición</th>
+                                                <th class="py-2 px-1.5 text-center">Cant.</th>
+                                                <th class="py-2 px-1.5 text-right">Precio Unit.</th>
+                                                <th class="py-2 px-2 text-right">Subtotal</th>
+                                                <th class="py-2 pl-1"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="presTablaPiezasBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Tabla Editable de Mano de Obra -->
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <p class="report-section-title purple mb-0">🛠️ Mano de Obra</p>
+                                    <button type="button" id="btnAgregarManoObraPres" class="btn-add-item text-xs py-1 px-3">
+                                        + Agregar Mano de Obra
+                                    </button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-800 text-[11px] font-bold uppercase text-slate-400">
+                                                <th class="py-2 pr-2">Descripción de la Reparación</th>
+                                                <th class="py-2 px-1.5 text-right">Precio Neto</th>
+                                                <th class="py-2 pl-1"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="presTablaManoObraBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Tiempo Estimado, Notas y Resumen Neto -->
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 pt-2 border-t border-slate-800">
+                                <div class="md:col-span-7 space-y-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1">⏱️ Tiempo Estimado de Entrega</label>
+                                        <input type="text" id="presEditorTiempo" placeholder="Ej. 1 a 2 días hábiles"
+                                            class="w-full rounded-lg p-2 text-xs">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1">📋 Notas o Garantía</label>
+                                        <input type="text" id="presEditorNotas" placeholder="Ej. 30 días de garantía en mano de obra"
+                                            class="w-full rounded-lg p-2 text-xs">
+                                    </div>
+                                </div>
+
+                                <div class="md:col-span-5 p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 flex flex-col justify-between space-y-2">
+                                    <div class="space-y-1.5 text-xs">
+                                        <div class="flex justify-between text-slate-400">
+                                            <span>Piezas y Refacciones:</span>
+                                            <span id="presResumenPiezas" class="font-mono font-semibold text-slate-200">$0.00 MXN</span>
+                                        </div>
+                                        <div class="flex justify-between text-slate-400">
+                                            <span>Mano de Obra:</span>
+                                            <span id="presResumenManoObra" class="font-mono font-semibold text-slate-200">$0.00 MXN</span>
+                                        </div>
+                                    </div>
+                                    <div class="border-t border-slate-800 pt-2.5 flex justify-between items-baseline">
+                                        <span class="text-xs font-extrabold uppercase text-emerald-400">Total Neto:</span>
+                                        <span id="presResumenTotalNeto" class="text-lg font-extrabold font-mono text-emerald-400">$0.00 MXN</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historial de Presupuestos Guardados -->
+                <div class="app-card p-5 space-y-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <img src="icons/clipboard-notes.svg" class="w-4 h-4 object-contain" alt="">
+                        <span>Presupuestos Guardados</span>
+                    </h3>
+                    <div id="listaPresupuestosGuardados" class="space-y-2.5">
+                        <p class="text-sm text-slate-500 text-center py-6">Cargando presupuestos...</p>
+                    </div>
+                </div>
             </div>
 
             <!-- SECCIÓN 3: AJUSTES Y PERFIL -->
@@ -709,6 +942,29 @@
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Dirección del Taller</label>
                             <input type="text" id="confTallerDir" placeholder="Ej. Av. Hidalgo #45, Col. Centro"
                                 class="w-full rounded-lg p-2.5 text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Ciudad del Taller (Para
+                                    Precios de Presupuestos)</label>
+                                <input type="text" id="confTallerCiudad" placeholder="Ej. Ciudad Juárez, Chih."
+                                    class="w-full rounded-lg p-2.5 text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Moneda a Usar en
+                                    Presupuestos</label>
+                                <select id="confTallerMoneda" class="w-full rounded-lg p-2.5 text-sm">
+                                    <option value="MXN" selected>MXN - Peso Mexicano ($)</option>
+                                    <option value="USD">USD - Dólar Estadounidense ($)</option>
+                                    <option value="COP">COP - Peso Colombiano ($)</option>
+                                    <option value="ARS">ARS - Peso Argentino ($)</option>
+                                    <option value="CLP">CLP - Peso Chileno ($)</option>
+                                    <option value="PEN">PEN - Sol Peruano (S/)</option>
+                                    <option value="EUR">EUR - Euro (€)</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div>

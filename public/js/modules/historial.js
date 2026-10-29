@@ -5,6 +5,19 @@ import { showToast } from './toast.js';
 
 let todosLosReportes = [];
 
+export function getTodosLosReportes() {
+    return todosLosReportes;
+}
+
+export function marcarReportePresupuestadoLocal(reporteId) {
+    const rep = todosLosReportes.find(r => String(r.id) === String(reporteId));
+    if (rep) {
+        rep.presupuesto_generado = true;
+        rep.total_presupuestos_generados = (Number(rep.total_presupuestos_generados) || 0) + 1;
+    }
+    window.dispatchEvent(new CustomEvent('reportesActualizados'));
+}
+
 export async function cargarHistorial(userId) {
     if (!userId) return;
 
@@ -18,12 +31,14 @@ export async function cargarHistorial(userId) {
             todosLosReportes = [];
             lista.innerHTML = `<p class="text-sm text-slate-500 text-center py-6">No hay reportes previos registrados en tu cuenta.</p>`;
             actualizarEstadisticasDashboard([]);
+            window.dispatchEvent(new CustomEvent('reportesActualizados'));
             return;
         }
 
         todosLosReportes = json.data;
         renderizarListaFiltrada(todosLosReportes);
         actualizarEstadisticasDashboard(todosLosReportes);
+        window.dispatchEvent(new CustomEvent('reportesActualizados'));
 
     } catch (err) {
         lista.innerHTML = `<p class="text-sm text-red-400 text-center py-4">Error al cargar historial: ${err.message}</p>`;
@@ -48,29 +63,33 @@ export function renderizarListaFiltrada(reportes) {
             badgeColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40';
         }
 
+        const bgClase = (index % 2 === 0)
+            ? 'bg-slate-800/50 border-slate-700/60 hover:bg-slate-800/80 hover:border-slate-500'
+            : 'bg-slate-900/70 border-slate-800/90 hover:bg-slate-850/60 hover:bg-slate-800/45 hover:border-slate-600';
+
         return `
-            <div class="glass-panel p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between hover:border-slate-600 transition-all gap-3">
+            <div data-id="${r.id}" class="tarjeta-historial ${bgClase} border p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between transition-all duration-200 gap-3 cursor-pointer group shadow-sm hover:shadow-md">
                 <div class="flex items-start sm:items-center gap-3">
                     <span class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-700 shrink-0">${escapeHtml(r.codigo)}</span>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="font-bold text-sm text-slate-200 truncate">${escapeHtml(r.marca)} ${escapeHtml(r.modelo)}</span>
+                            <span class="font-bold text-sm text-slate-200 group-hover:text-white transition-colors truncate">${escapeHtml(r.marca)} ${escapeHtml(r.modelo)}</span>
                             <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border shrink-0 ${badgeColor}">${severidad}</span>
                         </div>
                         <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">${new Date(r.creado_en).toLocaleString('es-ES')}</p>
                     </div>
                 </div>
-                <button data-id="${r.id}" class="btn-ver-historial text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-lg border border-slate-600 transition-colors flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
+                <button type="button" data-id="${r.id}" class="btn-ver-historial text-xs bg-slate-800 group-hover:bg-slate-700 text-slate-200 px-3.5 py-2.5 rounded-lg border border-slate-600 group-hover:border-slate-500 transition-colors flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0 pointer-events-none" title="Ver reporte">
                     <img src="icons/eye.svg" class="w-5 h-5 object-contain" alt="">
                 </button>
             </div>
         `;
     }).join('');
 
-    // Attach click handlers
-    lista.querySelectorAll('.btn-ver-historial').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const id = e.currentTarget.getAttribute('data-id');
+    // Attach click handlers a toda la tarjeta
+    lista.querySelectorAll('.tarjeta-historial').forEach(tarjeta => {
+        tarjeta.addEventListener('click', (e) => {
+            const id = tarjeta.getAttribute('data-id');
             const r = todosLosReportes.find(item => String(item.id) === String(id));
             if (r) {
                 abrirVistaReporte(normalizarDesdeHistorial(r));

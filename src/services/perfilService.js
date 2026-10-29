@@ -67,11 +67,27 @@ export async function actualizarTaller(userId, datosActualizar) {
   // Asegurar que el perfil exista (si no, obtenerPerfilPorId lo crea con 10 créditos de bienvenida)
   await obtenerPerfilPorId(userId);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('perfiles')
     .update(payloadLimpio)
     .eq('id', userId)
     .select();
+
+  // Fallback si alguna columna opcional (ej. moneda) aún no existe en la tabla perfiles
+  if (error && payloadLimpio.moneda) {
+    const { moneda, ...payloadSinMoneda } = payloadLimpio;
+    if (Object.keys(payloadSinMoneda).length > 0) {
+      const retry = await supabase
+        .from('perfiles')
+        .update(payloadSinMoneda)
+        .eq('id', userId)
+        .select();
+      data = retry.data;
+      error = retry.error;
+    } else {
+      return null;
+    }
+  }
 
   console.log('actualizarTaller resultado Supabase:', { data, error });
 

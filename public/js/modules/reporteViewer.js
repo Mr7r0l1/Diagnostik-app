@@ -1,5 +1,6 @@
 import { escapeHtml, severidadClase, formatearFecha, imprimirReporte } from './reportePrint.js';
 import { switchTab } from './navigation.js';
+import { iniciarPresupuestoDesdeReporte } from './presupuestos.js';
 
 let reporteEnVista = null;
 
@@ -38,8 +39,11 @@ export function abrirVistaReporte(rep) {
                     <h3 class="viewer-title truncate">${escapeHtml(d.descripcion_corta || 'Reporte de diagnóstico')}</h3>
                 </div>
             </div>
-            <div class="flex items-center gap-2 justify-between sm:justify-end shrink-0">
+            <div class="flex items-center gap-2 flex-wrap justify-between sm:justify-end shrink-0">
                 <span class="badge badge-${severidadClase(sev)}">Severidad: ${escapeHtml(sev)}</span>
+                <button type="button" id="btnCotizarDesdeVista" class="btn-success text-xs sm:text-sm py-2 px-3 sm:px-4">
+                    💰 ${rep.presupuesto_generado ? 'Cotizar Presupuesto' : 'Cotizar Presupuesto (Gratis)'}
+                </button>
                 <button type="button" id="btnImprimirVista" class="btn-primary text-xs sm:text-sm py-2 px-3 sm:px-4">🖨️ Imprimir / PDF</button>
             </div>
         </div>
@@ -139,6 +143,7 @@ export function abrirVistaReporte(rep) {
     `;
 
     document.getElementById('btnVolverHistorial')?.addEventListener('click', () => switchTab('tab-historial'));
+    document.getElementById('btnCotizarDesdeVista')?.addEventListener('click', () => iniciarPresupuestoDesdeReporte(reporteEnVista));
     document.getElementById('btnImprimirVista')?.addEventListener('click', () => imprimirReporte(reporteEnVista));
 
     switchTab('tab-reporte-ver');

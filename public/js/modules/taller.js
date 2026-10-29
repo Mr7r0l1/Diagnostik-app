@@ -7,6 +7,8 @@ export let datosPerfil = {
     nombre_taller: '',
     telefono: '',
     direccion: '',
+    ciudad: 'Ciudad Juárez, Chih.',
+    moneda: localStorage.getItem('diagnostik_moneda_taller') || 'MXN',
     logo_url: ''
 };
 
@@ -25,6 +27,9 @@ export async function cargarDatosUsuario(userId) {
             el.textContent = creditosValor;
         });
 
+        const monedaGuardada = data.moneda || localStorage.getItem('diagnostik_moneda_taller') || 'MXN';
+        localStorage.setItem('diagnostik_moneda_taller', monedaGuardada);
+
         // Guardar valores en memoria (preservando valores reales, vacíos si son vacíos)
         datosPerfil = {
             nombre_usuario: data.nombre_usuario || '',
@@ -32,6 +37,8 @@ export async function cargarDatosUsuario(userId) {
             nombre_taller: data.nombre_taller || '',
             telefono: data.telefono || '',
             direccion: data.direccion || '',
+            ciudad: data.ciudad || 'Ciudad Juárez, Chih.',
+            moneda: monedaGuardada,
             logo_url: data.logo_url || ''
         };
 
@@ -60,10 +67,23 @@ export async function cargarDatosUsuario(userId) {
         const confNombre = document.getElementById('confTallerNombre');
         const confTel = document.getElementById('confTallerTel');
         const confDir = document.getElementById('confTallerDir');
+        const confCiudad = document.getElementById('confTallerCiudad');
+        const confMoneda = document.getElementById('confTallerMoneda');
 
         if (confNombre) confNombre.value = datosPerfil.nombre_taller;
         if (confTel) confTel.value = datosPerfil.telefono;
         if (confDir) confDir.value = datosPerfil.direccion;
+        if (confCiudad) confCiudad.value = datosPerfil.ciudad;
+        if (confMoneda) confMoneda.value = datosPerfil.moneda;
+
+        // Sincronizar ciudad y moneda en la sección de presupuestos si está en el DOM
+        const presCiudadInput = document.getElementById('presCiudad');
+        if (presCiudadInput && !presCiudadInput.dataset.editadoManual) {
+            presCiudadInput.value = datosPerfil.ciudad;
+        }
+        document.querySelectorAll('.ui-moneda-taller').forEach(el => {
+            el.textContent = datosPerfil.moneda;
+        });
 
         if (datosPerfil.logo_url) {
             const prev = document.getElementById('previewLogo');
@@ -138,11 +158,17 @@ export function initTallerListeners(getUserId) {
             const nombreTallerInput = document.getElementById('confTallerNombre').value.trim();
             const telefonoInput = document.getElementById('confTallerTel').value.trim();
             const direccionInput = document.getElementById('confTallerDir')?.value.trim() || '';
+            const ciudadInput = document.getElementById('confTallerCiudad')?.value.trim() || '';
+            const monedaInput = document.getElementById('confTallerMoneda')?.value || 'MXN';
+
+            localStorage.setItem('diagnostik_moneda_taller', monedaInput);
 
             const payload = {};
             if (nombreTallerInput) payload.nombre_taller = nombreTallerInput;
             if (telefonoInput) payload.telefono = telefonoInput;
             if (direccionInput) payload.direccion = direccionInput;
+            if (ciudadInput) payload.ciudad = ciudadInput;
+            if (monedaInput) payload.moneda = monedaInput;
             if (datosPerfil.logo_url) payload.logo_url = datosPerfil.logo_url;
 
             try {

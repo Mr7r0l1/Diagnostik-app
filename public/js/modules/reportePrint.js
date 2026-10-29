@@ -63,6 +63,7 @@ export function normalizarDesdeHistorial(r) {
         sintomas: ficha.sintomas_reportados || parsed.sintomas,
         dtcs: (ficha.dtcs && ficha.dtcs.length) ? ficha.dtcs : parsed.dtcs,
         tieneFicha: !!r.diagnostico?.ficha_vehiculo,
+        presupuesto_generado: !!r.presupuesto_generado,
         diagnostico: d
     };
 }
@@ -329,6 +330,256 @@ export function imprimirReporte(rep) {
             iframe.contentWindow.print();
         } catch (err) {
             console.error('Error al imprimir reporte:', err);
+            limpiar();
+        }
+    };
+
+    if (doc.readyState === 'complete') lanzar();
+    else iframe.addEventListener('load', lanzar, { once: true });
+}
+
+export function construirHTMLPresupuesto(pres) {
+    const taller = datosPerfil || {};
+    const moneda = pres.moneda || taller.moneda || 'MXN';
+    const folio = pres.folio || (pres.id ? `#${String(pres.id).slice(0, 8).toUpperCase()}` : 'COTIZACIÓN');
+    const piezas = Array.isArray(pres.piezas) ? pres.piezas : [];
+    const manoObra = Array.isArray(pres.mano_de_obra) ? pres.mano_de_obra : [];
+
+    const fmtMoneda = (n) => {
+        const val = Number(n) || 0;
+        return `$${val.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${moneda}`;
+    };
+
+    const subtotalPiezas = piezas.reduce((acc, p) => acc + ((Number(p.cantidad) || 1) * (Number(p.precio_unitario) || 0)), 0);
+    const subtotalManoObra = manoObra.reduce((acc, m) => acc + (Number(m.precio ?? m.subtotal ?? 0) || 0), 0);
+    const totalNeto = subtotalPiezas + subtotalManoObra;
+
+    const filasPiezas = piezas.length
+        ? piezas.map(p => {
+            const cant = Math.max(1, Number(p.cantidad) || 1);
+            const pu = Number(p.precio_unitario) || 0;
+            const sub = cant * pu;
+            const esUsada = p.condicion === 'Segunda Mano';
+            return `
+                <tr>
+                    <td>${escapeHtml(p.descripcion)}</td>
+                    <td style="text-align:center;"><span class="cond-tag ${esUsada ? 'used' : 'new'}">${escapeHtml(p.condicion || 'Nueva')}</span></td>
+                    <td style="text-align:center;">${cant}</td>
+                    <td style="text-align:right;">${fmtMoneda(pu)}</td>
+                    <td style="text-align:right;font-weight:700;">${fmtMoneda(sub)}</td>
+                </tr>`;
+        }).join('')
+        : `<tr><td colspan="5" style="text-align:center;color:#94a3b8;">Sin refacciones registradas</td></tr>`;
+
+    const filasManoObra = manoObra.length
+        ? manoObra.map(m => {
+            const precio = Number(m.precio ?? m.subtotal ?? 0) || 0;
+            return `
+                <tr>
+                    <td>${escapeHtml(m.descripcion)}</td>
+                    <td style="text-align:right;font-weight:700;">${fmtMoneda(precio)}</td>
+                </tr>`;
+        }).join('')
+        : `<tr><td colspan="2" style="text-align:center;color:#94a3b8;">Sin cargos de mano de obra</td></tr>`;
+
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Presupuesto_${escapeHtml((pres.marca + '_' + pres.modelo).replace(/\s+/g, '_'))}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+    @page { size: A4; margin: 11mm 12mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #fff; }
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        color: #1e293b;
+        font-size: 9.5pt;
+        line-height: 1.45;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .page { width: 100%; }
+    .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 10px; }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .brand img { width: 54px; height: 54px; object-fit: contain; border-radius: 10px; border: 1px solid #e2e8f0; padding: 3px; }
+    .brand h1 { font-size: 15pt; font-weight: 800; color: #0f172a; }
+    .brand p { font-size: 8.3pt; color: #64748b; }
+    .doc-meta { text-align: right; }
+    .doc-title { font-size: 8pt; font-weight: 800; letter-spacing: 0.14em; color: #059669; text-transform: uppercase; }
+    .doc-folio { font-family: 'JetBrains Mono', monospace; font-size: 10.5pt; font-weight: 700; color: #0f172a; margin-top: 2px; }
+    .doc-date { font-size: 8.3pt; color: #64748b; margin-top: 1px; }
+    .accent { height: 4px; border-radius: 4px; background: linear-gradient(90deg, #059669, #2563eb); margin-bottom: 12px; }
+
+    .section { margin-bottom: 12px; break-inside: avoid; }
+    .section-title {
+        font-size: 7.8pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+        color: #475569; margin-bottom: 5px; display: flex; align-items: center; gap: 6px;
+    }
+    .section-title::before { content: ''; width: 3px; height: 10px; border-radius: 2px; background: #059669; display: inline-block; }
+    .box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 11px; background: #f8fafc; }
+
+    .vehicle-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .vehicle-name { font-size: 12.5pt; font-weight: 800; color: #0f172a; }
+    .city-badge { font-size: 8pt; font-weight: 700; color: #475569; background: #e2e8f0; padding: 3px 10px; border-radius: 999px; }
+    .work-desc { margin-top: 6px; font-size: 9pt; color: #334155; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 8.9pt; }
+    th { background: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 7.5pt; letter-spacing: 0.06em; padding: 6px 8px; text-align: left; border-bottom: 1px solid #cbd5e1; }
+    td { padding: 6px 8px; border-bottom: 1px solid #e2e8f0; color: #1e293b; }
+    .cond-tag { font-size: 7.2pt; font-weight: 700; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; }
+    .cond-tag.new { background: #d1fae5; color: #047857; }
+    .cond-tag.used { background: #fef3c7; color: #b45309; }
+
+    .totals-wrap { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-top: 10px; }
+    .notes-box { flex: 1; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 11px; background: #f8fafc; font-size: 8.6pt; color: #334155; }
+    .totals-card { width: 250px; border: 1px solid #a7f3d0; background: #ecfdf5; border-radius: 8px; padding: 10px 12px; }
+    .tot-line { display: flex; justify-content: space-between; font-size: 8.8pt; color: #334155; margin-bottom: 4px; }
+    .tot-final { display: flex; justify-content: space-between; font-size: 11pt; font-weight: 800; color: #047857; border-top: 1px solid #6ee7b7; padding-top: 6px; margin-top: 4px; }
+
+    .signs { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 28px; break-inside: avoid; }
+    .sign { border-top: 1px solid #94a3b8; padding-top: 4px; text-align: center; font-size: 8pt; color: #64748b; }
+    .foot { margin-top: 14px; padding-top: 7px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-size: 7.2pt; color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+    <header class="head">
+        <div class="brand">
+            ${taller.logo_url ? `<img src="${escapeHtml(taller.logo_url)}" alt="Logo">` : ''}
+            <div>
+                <h1>${escapeHtml(taller.nombre_taller || 'Taller Mecánico')}</h1>
+                ${taller.telefono ? `<p>Tel. ${escapeHtml(taller.telefono)}</p>` : ''}
+                ${taller.direccion ? `<p>${escapeHtml(taller.direccion)}</p>` : ''}
+            </div>
+        </div>
+        <div class="doc-meta">
+            <div class="doc-title">Presupuesto de Reparación</div>
+            <div class="doc-folio">${escapeHtml(folio)}</div>
+            <div class="doc-date">${escapeHtml(formatearFecha(pres.creado_en || new Date(), true))}</div>
+        </div>
+    </header>
+    <div class="accent"></div>
+
+    <section class="section">
+        <div class="section-title">Vehículo y Trabajo a Realizar</div>
+        <div class="box">
+            <div class="vehicle-row">
+                <div class="vehicle-name">${escapeHtml(pres.marca)} ${escapeHtml(pres.modelo)}</div>
+                ${pres.ciudad ? `<span class="city-badge">📍 ${escapeHtml(pres.ciudad)}</span>` : ''}
+            </div>
+            <p class="work-desc">${escapeHtml(pres.descripcion_trabajo || '')}</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">Desglose de Piezas y Refacciones</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pieza / Refacción</th>
+                    <th style="text-align:center;">Condición</th>
+                    <th style="text-align:center;">Cant.</th>
+                    <th style="text-align:right;">Precio Unit.</th>
+                    <th style="text-align:right;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>${filasPiezas}</tbody>
+        </table>
+    </section>
+
+    <section class="section">
+        <div class="section-title">Mano de Obra</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Descripción del Trabajo</th>
+                    <th style="text-align:right;">Importe Neto</th>
+                </tr>
+            </thead>
+            <tbody>${filasManoObra}</tbody>
+        </table>
+    </section>
+
+    <section class="section totals-wrap">
+        <div class="notes-box">
+            ${pres.tiempo_estimado ? `<p><strong>⏱️ Tiempo estimado de entrega:</strong> ${escapeHtml(pres.tiempo_estimado)}</p>` : ''}
+            ${pres.notas ? `<p style="margin-top:4px;"><strong>📋 Notas / Garantía:</strong> ${escapeHtml(pres.notas)}</p>` : ''}
+        </div>
+        <div class="totals-card">
+            <div class="tot-line"><span>Refacciones:</span><strong>${fmtMoneda(subtotalPiezas)}</strong></div>
+            <div class="tot-line"><span>Mano de Obra:</span><strong>${fmtMoneda(subtotalManoObra)}</strong></div>
+            <div class="tot-final"><span>TOTAL NETO:</span><span>${fmtMoneda(totalNeto)}</span></div>
+        </div>
+    </section>
+
+    <div class="signs">
+        <div class="sign">Elaboró · ${escapeHtml(taller.nombre_usuario || taller.nombre_taller || 'Taller')}</div>
+        <div class="sign">Autorización del Cliente</div>
+    </div>
+
+    <footer class="foot">
+        <span>Precios netos expresados en ${escapeHtml(moneda)}. Sujetos a disponibilidad de refacciones.</span>
+        <span>${escapeHtml(folio)}</span>
+    </footer>
+</div>
+</body>
+</html>`;
+}
+
+export function imprimirPresupuesto(pres) {
+    const prev = document.getElementById('printFrame');
+    if (prev) prev.remove();
+
+    const iframe = document.createElement('iframe');
+    iframe.id = 'printFrame';
+    iframe.setAttribute('aria-hidden', 'true');
+    Object.assign(iframe.style, {
+        position: 'fixed', left: '-10000px', top: '0', border: '0',
+        width: `${PRINTABLE_WIDTH_PX}px`, height: '100px', opacity: '0', pointerEvents: 'none'
+    });
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write(construirHTMLPresupuesto(pres));
+    doc.close();
+
+    const tituloOriginal = document.title;
+    const nombreArchivo = `Presupuesto_${pres.marca}_${pres.modelo}_${new Date().toISOString().slice(0, 10)}`
+        .replace(/[^\w\-áéíóúñÁÉÍÓÚÑ]+/g, '_');
+
+    let limpio = false;
+    const limpiar = () => {
+        if (limpio) return;
+        limpio = true;
+        document.title = tituloOriginal;
+        iframe.remove();
+    };
+
+    const lanzar = async () => {
+        try {
+            if (doc.fonts?.ready) await doc.fonts.ready;
+            const imgs = Array.from(doc.images);
+            await Promise.all(imgs.map(img => img.complete ? null : new Promise(res => { img.onload = img.onerror = res; })));
+
+            const page = doc.getElementById('page');
+            const alto = page.scrollHeight;
+            if (alto > PRINTABLE_HEIGHT_PX) {
+                const escala = PRINTABLE_HEIGHT_PX / alto;
+                if (escala >= MAX_SHRINK) page.style.zoom = String(Math.floor(escala * 1000) / 1000);
+            }
+
+            document.title = nombreArchivo;
+            iframe.contentWindow.addEventListener('afterprint', () => setTimeout(limpiar, 200), { once: true });
+            setTimeout(limpiar, 120000);
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+        } catch (err) {
+            console.error('Error al imprimir presupuesto:', err);
             limpiar();
         }
     };

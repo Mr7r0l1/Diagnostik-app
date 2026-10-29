@@ -3,6 +3,7 @@ import { switchTab, initNavigation } from './modules/navigation.js';
 import { initTallerListeners } from './modules/taller.js';
 import { initDiagnosticoListeners } from './modules/diagnostico.js';
 import { initHistorialListeners } from './modules/historial.js';
+import { initPresupuestosListeners } from './modules/presupuestos.js';
 import { initTokensListeners } from './modules/tokens.js';
 import { initPdfListener } from './modules/pdf.js';
 import { initTheme, initThemeListeners } from './modules/theme.js';
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTallerListeners(() => getUsuarioActual()?.id);
     initDiagnosticoListeners(() => getUsuarioActual()?.id);
     initHistorialListeners();
+    initPresupuestosListeners(() => getUsuarioActual()?.id);
     initTokensListeners(() => getUsuarioActual()?.email);
     initPdfListener();
 

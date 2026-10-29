@@ -1,5 +1,5 @@
 export function switchTab(tabId) {
-    const tabs = ['tab-dashboard', 'tab-diag', 'tab-historial', 'tab-reporte-ver', 'tab-tokens', 'tab-perfil'];
+    const tabs = ['tab-dashboard', 'tab-diag', 'tab-historial', 'tab-reporte-ver', 'tab-presupuestos', 'tab-tokens', 'tab-perfil'];
     tabs.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
@@ -25,6 +25,7 @@ export function switchTab(tabId) {
         'tab-diag': { title: 'Generar Reporte', subtitle: 'Captura los síntomas del vehículo para generar el reporte' },
         'tab-historial': { title: 'Historial de Diagnósticos', subtitle: 'Consulta, filtra y exporta reportes previos' },
         'tab-reporte-ver': { title: 'Consulta de Reporte', subtitle: 'Reporte archivado · solo lectura' },
+        'tab-presupuestos': { title: 'Presupuestos con IA', subtitle: 'Cotiza refacciones y mano de obra con precios de tu ciudad' },
         'tab-tokens': { title: 'Recargar Tokens', subtitle: 'Adquiere tokens para diagnósticos mediante transferencia directa SPEI sin comisiones' },
         'tab-perfil': { title: 'Ajustes de Perfil y Configuración', subtitle: 'Personaliza tu cuenta, datos del taller y apariencia' }
     };

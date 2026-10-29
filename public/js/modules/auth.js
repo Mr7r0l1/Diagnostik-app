@@ -1,6 +1,7 @@
 import { clienteSupabase } from '../config.js';
 import { cargarDatosUsuario } from './taller.js';
 import { cargarHistorial } from './historial.js';
+import { cargarPresupuestos } from './presupuestos.js';
 import { guardarTallerAPI } from '../services/api.js';
 import { showToast } from './toast.js';
 
@@ -167,6 +168,7 @@ export async function checkSession() {
 
             await cargarDatosUsuario(usuarioActual.id);
             await cargarHistorial(usuarioActual.id);
+            await cargarPresupuestos(usuarioActual.id);
         } else {
             usuarioActual = null;
             document.getElementById('authModal')?.classList.remove('hidden');
