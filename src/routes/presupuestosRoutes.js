@@ -8,10 +8,10 @@ import {
 
 const router = Router();
 
-router.post('/api/presupuestos/generar', generarPresupuesto);
-router.put('/api/presupuestos/:id', actualizarPresupuesto);
-router.get('/api/presupuestos/:userId', listarPresupuestos);
-router.delete('/api/presupuestos/:id', eliminarPresupuesto);
+router.post('/presupuestos/generar', generarPresupuesto);
+router.put('/presupuestos/:id', actualizarPresupuesto);
+router.get('/presupuestos/:userId', listarPresupuestos);
+router.delete('/presupuestos/:id', eliminarPresupuesto);
 
 export default router;
 
