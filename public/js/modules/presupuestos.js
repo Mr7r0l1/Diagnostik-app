@@ -210,7 +210,7 @@ function renderizarFilasPiezas() {
                     <input type="text" data-idx="${idx}" data-field="descripcion"
                         value="${escapeHtml(p.descripcion)}"
                         placeholder="Nombre de la pieza..."
-                        class="pres-pieza-input w-full rounded-lg px-2.5 py-1.5 text-xs">
+                        class="pres-pieza-input w-full rounded-lg px-2.5 py-1.5 text-xs bg-slate-900/90 text-slate-100 border border-slate-700/70">
                 </td>
                 <td class="py-2 px-1.5 text-center">
                     <button type="button" data-idx="${idx}"
@@ -226,14 +226,14 @@ function renderizarFilasPiezas() {
                 <td class="py-2 px-1.5 w-20">
                     <input type="number" min="1" step="1" data-idx="${idx}" data-field="cantidad"
                         value="${cant}"
-                        class="pres-pieza-input w-full rounded-lg px-2 py-1.5 text-xs text-center font-mono">
+                        class="pres-pieza-input w-full rounded-lg px-2 py-1.5 text-xs text-center font-mono font-bold bg-slate-900/90 text-slate-100 border border-slate-700/70">
                 </td>
                 <td class="py-2 px-1.5 w-32">
                     <input type="number" min="0" step="0.01" data-idx="${idx}" data-field="precio_unitario"
                         value="${precio}"
-                        class="pres-pieza-input w-full rounded-lg px-2.5 py-1.5 text-xs text-right font-mono">
+                        class="pres-pieza-input w-full rounded-lg px-2.5 py-1.5 text-xs text-right font-mono font-bold bg-slate-900/90 text-slate-100 border border-slate-700/70">
                 </td>
-                <td class="py-2 px-2 text-right font-mono text-xs font-bold text-slate-200 whitespace-nowrap" id="presSubtotalPieza-${idx}">
+                <td class="py-2 px-2 text-right font-mono text-xs font-bold text-emerald-400 whitespace-nowrap" id="presSubtotalPieza-${idx}">
                     ${formatearImporte(subtotal, moneda)}
                 </td>
                 <td class="py-2 pl-1 text-right w-8">
@@ -307,12 +307,12 @@ function renderizarFilasManoObra() {
                     <input type="text" data-idx="${idx}" data-field="descripcion"
                         value="${escapeHtml(m.descripcion)}"
                         placeholder="Descripción de la mano de obra..."
-                        class="pres-mo-input w-full rounded-lg px-2.5 py-1.5 text-xs">
+                        class="pres-mo-input w-full rounded-lg px-2.5 py-1.5 text-xs bg-slate-900/90 text-slate-100 border border-slate-700/70">
                 </td>
                 <td class="py-2 px-1.5 w-36">
                     <input type="number" min="0" step="0.01" data-idx="${idx}" data-field="precio"
                         value="${precio}"
-                        class="pres-mo-input w-full rounded-lg px-2.5 py-1.5 text-xs text-right font-mono">
+                        class="pres-mo-input w-full rounded-lg px-2.5 py-1.5 text-xs text-right font-mono font-bold bg-slate-900/90 text-slate-100 border border-slate-700/70">
                 </td>
                 <td class="py-2 pl-1 text-right w-8">
                     <button type="button" data-idx="${idx}" class="pres-btn-del-mo btn-remove" title="Quitar mano de obra">×</button>
